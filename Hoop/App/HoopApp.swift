@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import GameBoard
 
 @main
 struct HoopApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            GameBoardView()
         }
     }
 }

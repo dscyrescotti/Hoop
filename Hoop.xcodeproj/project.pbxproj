@@ -8,17 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		EC536504297BC4B30069741F /* HoopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC536503297BC4B30069741F /* HoopApp.swift */; };
-		EC536506297BC4B30069741F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC536505297BC4B30069741F /* ContentView.swift */; };
 		EC536508297BC4B40069741F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC536507297BC4B40069741F /* Assets.xcassets */; };
 		EC53650B297BC4B40069741F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC53650A297BC4B40069741F /* Preview Assets.xcassets */; };
+		ECC12B18297E8C01002EFC13 /* GameBoard in Frameworks */ = {isa = PBXBuildFile; productRef = ECC12B17297E8C01002EFC13 /* GameBoard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EC38061A297EB0D100BA1F0B /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
 		EC536500297BC4B30069741F /* Hoop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hoop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC536503297BC4B30069741F /* HoopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoopApp.swift; sourceTree = "<group>"; };
-		EC536505297BC4B30069741F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		EC536507297BC4B40069741F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC53650A297BC4B40069741F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EC74AD08297E892F008B8DB7 /* GameBoard */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameBoard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECC12B18297E8C01002EFC13 /* GameBoard in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -35,8 +37,10 @@
 		EC5364F7297BC4B30069741F = {
 			isa = PBXGroup;
 			children = (
+				EC74AD07297E892F008B8DB7 /* Packages */,
 				EC536502297BC4B30069741F /* Hoop */,
 				EC536501297BC4B30069741F /* Products */,
+				ECC12B16297E8C01002EFC13 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -51,9 +55,8 @@
 		EC536502297BC4B30069741F /* Hoop */ = {
 			isa = PBXGroup;
 			children = (
-				EC536503297BC4B30069741F /* HoopApp.swift */,
-				EC536505297BC4B30069741F /* ContentView.swift */,
-				EC536507297BC4B40069741F /* Assets.xcassets */,
+				ECC12B15297E8BD4002EFC13 /* Resources */,
+				ECC12B14297E8BBD002EFC13 /* App */,
 				EC536509297BC4B40069741F /* Preview Content */,
 			);
 			path = Hoop;
@@ -65,6 +68,38 @@
 				EC53650A297BC4B40069741F /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		EC74AD07297E892F008B8DB7 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				EC74AD08297E892F008B8DB7 /* GameBoard */,
+				EC38061A297EB0D100BA1F0B /* DesignSystem */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		ECC12B14297E8BBD002EFC13 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				EC536503297BC4B30069741F /* HoopApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		ECC12B15297E8BD4002EFC13 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EC536507297BC4B40069741F /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		ECC12B16297E8C01002EFC13 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +118,9 @@
 			dependencies = (
 			);
 			name = Hoop;
+			packageProductDependencies = (
+				ECC12B17297E8C01002EFC13 /* GameBoard */,
+			);
 			productName = Hoop;
 			productReference = EC536500297BC4B30069741F /* Hoop.app */;
 			productType = "com.apple.product-type.application";
@@ -137,7 +175,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC536506297BC4B30069741F /* ContentView.swift in Sources */,
 				EC536504297BC4B30069741F /* HoopApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,18 +310,21 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.Hoop;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.dscyrescotti.Hoop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -302,18 +342,21 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.Hoop;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.dscyrescotti.Hoop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -339,6 +382,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ECC12B17297E8C01002EFC13 /* GameBoard */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GameBoard;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EC5364F8297BC4B30069741F /* Project object */;
 }
