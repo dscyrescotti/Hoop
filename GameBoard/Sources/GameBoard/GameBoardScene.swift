@@ -10,17 +10,31 @@ enum GameState {
 }
 
 class GameBoardScene: SKScene {
+    // MARK: - ID
     static private let ballNodeId = "gameboard.ball"
     static private let hoopNodeId = "gameboard.hoop"
 
+    // MARK: - PROPERTIES
     var ballNode: SKSpriteNode?
     var trajectoryNodes: [SKShapeNode] = []
-
     var hoopNodes: [SKSpriteNode] = []
-
     var state: GameState = .idle
     var dragOrigin: CGPoint = .zero
 
+    let viewModel: GameBoardViewModel
+
+    init(_ viewModel: GameBoardViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - SCENE
+extension GameBoardScene {
     override func didMove(to view: SKView) {
         initBallNode()
         initHoopNodes()
@@ -28,25 +42,24 @@ class GameBoardScene: SKScene {
         initScene()
         startAnimationOnBallNode()
     }
-}
 
-// MARK: - SCENE
-extension GameBoardScene {
     func initScene() {
-        /// set up walls
+        /// add left wall
         let leftWallNode = SKNode()
         leftWallNode.position = CGPoint(x: frame.minX - 1, y: frame.midY)
         let leftWallPhysicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: frame.height))
         leftWallPhysicsBody.isDynamic = false
         leftWallNode.physicsBody = leftWallPhysicsBody
         addChild(leftWallNode)
-
+        /// add right wall
         let rightWallNode = SKNode()
         rightWallNode.position = CGPoint(x: frame.maxX + 1, y: frame.midY)
         let rightWallPhysicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: frame.height))
         rightWallPhysicsBody.isDynamic = false
         rightWallNode.physicsBody = rightWallPhysicsBody
         addChild(rightWallNode)
+        /// configure the scene
+        scaleMode = .aspectFit
     }
 }
 
@@ -54,20 +67,20 @@ extension GameBoardScene {
 extension GameBoardScene {
     /// set up ball node
     func initBallNode() {
-        /// create a ball node with ball texture
+        /// add a ball node with ball texture
         let texture = SKTexture(image: .loadImage(.basketball))
         let ballNode = SKSpriteNode(texture: texture)
         ballNode.name = GameBoardScene.ballNodeId
         ballNode.size = CGSize(width: 50, height: 50)
         ballNode.position = CGPoint(x: frame.midX + 100, y: frame.midY - 200)
+        addChild(ballNode)
+        self.ballNode = ballNode
         /// set up the physics body with bouncing behaviour
         let physicsBody = SKPhysicsBody(texture: texture, alphaThreshold: 0.1, size: ballNode.size)
         physicsBody.allowsRotation = true
         physicsBody.restitution = 0.4
         physicsBody.isDynamic = false
         ballNode.physicsBody = physicsBody
-        addChild(ballNode)
-        self.ballNode = ballNode
     }
 
     /// animate the ball to scale up and down constantly in idle state

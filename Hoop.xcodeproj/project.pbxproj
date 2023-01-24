@@ -19,6 +19,7 @@
 		EC536503297BC4B30069741F /* HoopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoopApp.swift; sourceTree = "<group>"; };
 		EC536507297BC4B40069741F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC53650A297BC4B40069741F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EC57224C29800D7300555864 /* GameCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameCore; sourceTree = "<group>"; };
 		EC74AD08297E892F008B8DB7 /* GameBoard */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameBoard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,6 +76,7 @@
 			children = (
 				EC74AD08297E892F008B8DB7 /* GameBoard */,
 				EC38061A297EB0D100BA1F0B /* DesignSystem */,
+				EC57224C29800D7300555864 /* GameCore */,
 			);
 			name = Packages;
 			sourceTree = "<group>";

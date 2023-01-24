@@ -2,7 +2,14 @@ import SwiftUI
 import SpriteKit
 
 public struct GameBoardView: View {
-    public init() { }
+    @StateObject var viewModel: GameBoardViewModel
+
+    private var gameBoardScene: SKScene
+
+    public init(_ viewModel: GameBoardViewModel) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+        self.gameBoardScene = GameBoardScene(viewModel)
+    }
 
     public var body: some View {
         GeometryReader { proxy in
@@ -18,12 +25,6 @@ public struct GameBoardView: View {
         }
         .ignoresSafeArea()
     }
-
-    private var gameBoardScene: SKScene = {
-        let scene = GameBoardScene()
-        scene.scaleMode = .aspectFit
-        return scene
-    }()
 
     private var debugOptions: SpriteView.DebugOptions = {
         #if DEBUG

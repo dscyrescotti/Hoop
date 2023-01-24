@@ -15,13 +15,16 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../DesignSystem")
+        .package(path: "../DesignSystem"),
+        .package(path: "../GameCore")
     ],
     targets: [
         .target(
             name: "GameBoard",
             dependencies: [
-                .product(name: "DesignSystem", package: "DesignSystem")
+                .product(name: "DesignSystem", package: "DesignSystem"),
+                .product(name: "Core", package: "GameCore"),
+                .product(name: "Model", package: "GameCore")
             ]
         ),
         .testTarget(
