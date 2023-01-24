@@ -1,18 +1,13 @@
-//
-//  HoopApp.swift
-//  Hoop
-//
-//  Created by Aye Chan on 1/21/23.
-//
-
+import Core
 import SwiftUI
 import GameBoard
 
 @main
 struct HoopApp: App {
+    let gameManager: GameManager = GameManager()
     var body: some Scene {
         WindowGroup {
-            GameBoardView()
+            GameBoardView(GameBoardViewModel(dependency: .init(gameManager: gameManager)))
         }
     }
 }
