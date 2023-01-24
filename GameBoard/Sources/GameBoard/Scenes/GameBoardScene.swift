@@ -5,20 +5,25 @@ enum GameState {
     case idle
     case aim
     case shoot
-    case gameOver
+    case bucket
+    case miss
 }
 
 class GameBoardScene: SKScene {
     static private let ballNodeId = "gameboard.ball"
+    static private let hoopNodeId = "gameboard.hoop"
 
     var ballNode: SKSpriteNode?
     var trajectoryNodes: [SKShapeNode] = []
+
+    var hoopNodes: [SKSpriteNode] = []
 
     var state: GameState = .idle
     var dragOrigin: CGPoint = .zero
 
     override func didMove(to view: SKView) {
         initBallNode()
+        initHoopNodes()
         initTrajectoryNodes()
         initScene()
         startAnimationOnBallNode()
@@ -28,20 +33,33 @@ class GameBoardScene: SKScene {
 // MARK: - SCENE
 extension GameBoardScene {
     func initScene() {
-        /// set up the physics body to add boundary to the scene
-        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+        /// set up walls
+        let leftWallNode = SKNode()
+        leftWallNode.position = CGPoint(x: frame.minX - 1, y: frame.midY)
+        let leftWallPhysicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: frame.height))
+        leftWallPhysicsBody.isDynamic = false
+        leftWallNode.physicsBody = leftWallPhysicsBody
+        addChild(leftWallNode)
+
+        let rightWallNode = SKNode()
+        rightWallNode.position = CGPoint(x: frame.maxX + 1, y: frame.midY)
+        let rightWallPhysicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: frame.height))
+        rightWallPhysicsBody.isDynamic = false
+        rightWallNode.physicsBody = rightWallPhysicsBody
+        addChild(rightWallNode)
     }
 }
 
 // MARK: - Ball
 extension GameBoardScene {
+    /// set up ball node
     func initBallNode() {
         /// create a ball node with ball texture
         let texture = SKTexture(image: .loadImage(.basketball))
         let ballNode = SKSpriteNode(texture: texture)
         ballNode.name = GameBoardScene.ballNodeId
         ballNode.size = CGSize(width: 50, height: 50)
-        ballNode.position = CGPoint(x: frame.midX, y: frame.midY)
+        ballNode.position = CGPoint(x: frame.midX + 100, y: frame.midY - 200)
         /// set up the physics body with bouncing behaviour
         let physicsBody = SKPhysicsBody(texture: texture, alphaThreshold: 0.1, size: ballNode.size)
         physicsBody.allowsRotation = true
@@ -52,17 +70,20 @@ extension GameBoardScene {
         self.ballNode = ballNode
     }
 
+    /// animate the ball to scale up and down constantly in idle state
     func startAnimationOnBallNode() {
         let scaleUp = SKAction.scale(to: 1.2, duration: 0.3)
         let scaleDown = SKAction.scale(to: 1, duration: 0.3)
         ballNode?.run(.repeatForever(.sequence([scaleUp, scaleDown])))
     }
 
+    /// remove animation from the ball and reset the original scale
     func stopAnimationOnBallNode() {
         ballNode?.removeAllActions()
         ballNode?.setScale(1)
     }
 
+    /// shoot the ball with impulse force
     func shootBall(with velocityX: CGFloat, and velocityY: CGFloat) {
         ballNode?.physicsBody?.isDynamic = true
         ballNode?.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
@@ -71,6 +92,7 @@ extension GameBoardScene {
 
 // MARK: - TRAJECTORY
 extension GameBoardScene {
+    /// set up  trajectory nodes
     func initTrajectoryNodes() {
         for index in 0...10 {
             let radius = 5 - CGFloat(index) * 0.3
@@ -84,6 +106,7 @@ extension GameBoardScene {
         }
     }
 
+    /// display trajectory nodes
     func displayTrajectoryNodes(basedOn velocityX: CGFloat, and velocityY: CGFloat) {
         guard let ballNode else { return }
         for index in 0...10 {
@@ -97,9 +120,49 @@ extension GameBoardScene {
         }
     }
 
+    /// hide trajectory nodes
     func hideTrajectoryNodes() {
         trajectoryNodes.forEach { node in
             node.isHidden = true
+        }
+    }
+}
+
+// MARK: - HOOP
+extension GameBoardScene {
+    /// set up hoop nodes
+    func initHoopNodes() {
+        for index in 0...3 {
+            let texture = SKTexture(image: .loadImage(.hoop))
+            let hoopNode = SKSpriteNode(texture: texture)
+            hoopNode.name = GameBoardScene.hoopNodeId
+            hoopNode.size = CGSize(width: 80, height: 80)
+            let x = frame.midX + (index % 2 == 0 ? -100 : 100)
+            let y = frame.midY + 150 * CGFloat(index)
+            hoopNode.position = CGPoint(x: x, y: y)
+            let bucketTexture = SKTexture(image: .loadImage(.hoopTexture))
+            let physicsBody = SKPhysicsBody(texture: bucketTexture, size: hoopNode.size)
+            physicsBody.isDynamic = false
+            hoopNode.physicsBody = physicsBody
+            addChild(hoopNode)
+            hoopNodes.append(hoopNode)
+        }
+    }
+}
+
+extension GameBoardScene {
+    override func update(_ currentTime: TimeInterval) {
+        guard state == .shoot else { return }
+        guard let ballNode, let hoopNode = hoopNodes.first else { return }
+        let bucketNode = hoopNodes.first {
+            let frame = $0.frame
+            let inner = CGRect(origin: CGPoint(x: frame.midX - 25, y: frame.midY - 25), size: ballNode.size)
+            return inner.contains(ballNode.position)
+        }
+        if let bucketNode {
+            state = .bucket
+        } else if !frame.contains(ballNode.position) {
+            state = .miss
         }
     }
 }

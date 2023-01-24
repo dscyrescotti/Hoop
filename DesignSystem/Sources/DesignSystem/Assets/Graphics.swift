@@ -18,4 +18,8 @@ public extension Image {
 public enum Graphic: String {
     // MARK: - Balls
     case basketball
+
+    // MARK: - Hoop
+    case hoop
+    case hoopTexture = "hoop-texture"
 }
