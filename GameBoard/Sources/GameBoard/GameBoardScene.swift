@@ -66,7 +66,7 @@ extension GameBoardScene {
         let ballNode = SKSpriteNode(texture: texture)
         ballNode.name = GameBoardScene.ballNodeId
         ballNode.size = CGSize(width: 50, height: 50)
-        ballNode.position = viewModel.ball?.location ?? CGPoint()
+        ballNode.position = viewModel.ball.location
         addChild(ballNode)
         self.ballNode = ballNode
         /// set up the physics body with bouncing behaviour
@@ -138,14 +138,12 @@ extension GameBoardScene {
 // MARK: - HOOP
 extension GameBoardScene {
     func configureHoopNodes() {
-        for index in 0...3 {
+        for hoop in viewModel.hoops {
             let texture = SKTexture(image: .loadImage(.hoop))
             let hoopNode = SKSpriteNode(texture: texture)
             hoopNode.name = GameBoardScene.hoopNodeId
             hoopNode.size = CGSize(width: 80, height: 80)
-            let x = frame.midX + (index % 2 == 0 ? -100 : 100)
-            let y = frame.midY + 150 * CGFloat(index)
-            hoopNode.position = CGPoint(x: x, y: y)
+            hoopNode.position = hoop.location
             let bucketTexture = SKTexture(image: .loadImage(.hoopTexture))
             let physicsBody = SKPhysicsBody(texture: bucketTexture, size: hoopNode.size)
             physicsBody.isDynamic = false
