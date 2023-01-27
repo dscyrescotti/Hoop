@@ -130,6 +130,7 @@ extension GameBoardScene {
         /// set up the physics body with bouncing behaviour
         let physicsBody = SKPhysicsBody(texture: texture, alphaThreshold: 0.1, size: ballNode.size)
         physicsBody.allowsRotation = true
+        physicsBody.friction = 5
         physicsBody.restitution = 0.4
         physicsBody.isDynamic = false
         ballNode.physicsBody = physicsBody
