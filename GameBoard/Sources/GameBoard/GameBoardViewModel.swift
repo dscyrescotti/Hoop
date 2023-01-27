@@ -17,4 +17,8 @@ public class GameBoardViewModel: ObservableObject {
     func loadGame(on frame: CGRect) {
         dependency.gameManager.loadNewGame(on: frame)
     }
+
+    func prepareForNextRound(on frame: CGRect, with location: CGPoint) {
+        dependency.gameManager.prepareForNextRound(on: frame, with: location)
+    }
 }

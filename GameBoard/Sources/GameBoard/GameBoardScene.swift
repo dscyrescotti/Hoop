@@ -11,7 +11,7 @@ class GameBoardScene: SKScene {
     var ballNode: SKSpriteNode?
     var trajectoryNodes: [SKShapeNode] = []
     var hoopNodes: [SKSpriteNode] = []
-    var state: GameState = .idle
+
     var dragOrigin: CGPoint = .zero
 
     let viewModel: GameBoardViewModel
@@ -55,6 +55,23 @@ extension GameBoardScene {
         addChild(rightWallNode)
         /// update scale mode
         scaleMode = .aspectFit
+    }
+
+    func prepareForNextRound() {
+        viewModel.prepareForNextRound(on: frame, with: ballNode?.position ?? .zero)
+        ballNode?.physicsBody?.isDynamic = false
+        let bucketNode = hoopNodes.removeFirst()
+        bucketNode.removeFromParent()
+        if let newHoop = viewModel.hoops.last {
+            let hoopNode = loadHoopNode(newHoop)
+            addChild(hoopNode)
+            hoopNodes.append(hoopNode)
+        }
+        ballNode?.run(.moveTo(y: viewModel.ball.location.y, duration: 1))
+        for (index, hoop) in viewModel.hoops.enumerated() {
+            hoopNodes[index].run(.moveTo(y: hoop.location.y, duration: 1))
+        }
+        startAnimationOnBallNode()
     }
 }
 
@@ -139,34 +156,41 @@ extension GameBoardScene {
 extension GameBoardScene {
     func configureHoopNodes() {
         for hoop in viewModel.hoops {
-            let texture = SKTexture(image: .loadImage(.hoop))
-            let hoopNode = SKSpriteNode(texture: texture)
-            hoopNode.name = GameBoardScene.hoopNodeId
-            hoopNode.size = CGSize(width: 80, height: 80)
-            hoopNode.position = hoop.location
-            let bucketTexture = SKTexture(image: .loadImage(.hoopTexture))
-            let physicsBody = SKPhysicsBody(texture: bucketTexture, size: hoopNode.size)
-            physicsBody.isDynamic = false
-            hoopNode.physicsBody = physicsBody
+            let hoopNode = loadHoopNode(hoop)
             addChild(hoopNode)
             hoopNodes.append(hoopNode)
         }
+    }
+
+    func loadHoopNode(_ hoop: Hoop) -> SKSpriteNode {
+        let texture = SKTexture(image: .loadImage(.hoop))
+        let hoopNode = SKSpriteNode(texture: texture)
+        hoopNode.name = GameBoardScene.hoopNodeId
+        hoopNode.size = CGSize(width: 80, height: 80)
+        hoopNode.position = hoop.location
+        let bucketTexture = SKTexture(image: .loadImage(.hoopTexture))
+        let physicsBody = SKPhysicsBody(texture: bucketTexture, size: hoopNode.size)
+        physicsBody.isDynamic = false
+        hoopNode.physicsBody = physicsBody
+        return hoopNode
     }
 }
 
 extension GameBoardScene {
     override func update(_ currentTime: TimeInterval) {
-        guard state == .shoot else { return }
-        guard let ballNode, let hoopNode = hoopNodes.first else { return }
+        guard viewModel.gameState == .shoot else { return }
+        guard let ballNode else { return }
         let bucketNode = hoopNodes.first {
             let frame = $0.frame
             let inner = CGRect(origin: CGPoint(x: frame.midX - 25, y: frame.midY - 25), size: ballNode.size)
             return inner.contains(ballNode.position)
         }
-        if let bucketNode {
-            state = .bucket
+        if bucketNode != nil {
+            viewModel.gameState = .bucket
+            prepareForNextRound()
+            viewModel.gameState = .idle
         } else if !frame.contains(ballNode.position) {
-            state = .miss
+            viewModel.gameState = .miss
         }
     }
 }
@@ -174,18 +198,18 @@ extension GameBoardScene {
 // MARK: - TOUCH
 extension GameBoardScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard state == .idle else { return }
+        guard viewModel.gameState == .idle else { return }
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
         let node = self.atPoint(location)
         guard node.name == GameBoardScene.ballNodeId else { return }
         dragOrigin = location
-        state = .aim
+        viewModel.gameState = .aim
         stopAnimationOnBallNode()
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard state == .aim else { return }
+        guard viewModel.gameState == .aim else { return }
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
         let velocityX = (dragOrigin.x - location.x) / 1.3
@@ -194,20 +218,19 @@ extension GameBoardScene {
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard state == .aim else { return }
+        guard viewModel.gameState == .aim else { return }
         guard let ballNode else { return }
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
-        let isOutOfBall = (ballNode.frame.minX > location.x || ballNode.frame.maxX < location.x) || (ballNode.frame.minY > location.y || ballNode.frame.maxY < location.y)
         hideTrajectoryNodes()
-        if isOutOfBall {
-            state = .shoot
+        if ballNode.frame.contains(location) {
+            viewModel.gameState = .idle
+            startAnimationOnBallNode()
+        } else {
+            viewModel.gameState = .shoot
             let velocityX = (dragOrigin.x - location.x) / 1.65
             let velocityY = (dragOrigin.y - location.y) / 1.65
             shootBall(with: velocityX, and: velocityY)
-        } else {
-            state = .idle
-            startAnimationOnBallNode()
         }
     }
 }
