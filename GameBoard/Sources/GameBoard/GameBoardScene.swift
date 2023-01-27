@@ -66,6 +66,9 @@ extension GameBoardScene {
 
     func prepareForNextRound(_ bucketNode: SKSpriteNode) {
         ballNode?.physicsBody?.isDynamic = false
+        let scaleUp = SKAction.scale(to: 1.5, duration: 0.1)
+        let scaleDown = SKAction.scale(to: 1, duration: 0.2)
+        ballNode?.run(.sequence([scaleUp, scaleDown, scaleUp, scaleDown]))
         var count = 0
         while true && count < 3 {
             let hoopNode = hoopNodes.removeFirst()
@@ -75,6 +78,12 @@ extension GameBoardScene {
                 break
             }
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
+            self?.loadNextHoop(bucketNode, count: count)
+        }
+    }
+
+    func loadNextHoop(_ bucketNode: SKSpriteNode, count: Int) {
         for _ in 0..<count {
             viewModel.prepareForNextRound(on: frame, with: ballNode?.position ?? .zero)
             if let newHoop = viewModel.hoops.last {
@@ -90,7 +99,7 @@ extension GameBoardScene {
             let wait = SKAction.wait(forDuration: 0.1 * Double(index + 1))
             hoopNodes[index].run(.sequence([wait, moveDown]))
         }
-        startAnimationOnBallNode()
+        self.startAnimationOnBallNode()
     }
 
     func restartNewGame() {
@@ -228,7 +237,10 @@ extension GameBoardScene {
         guard let ballNode else { return }
         let bucketNode = hoopNodes.first {
             let frame = $0.frame
-            let inner = CGRect(origin: CGPoint(x: frame.midX - 25, y: frame.midY - 25), size: ballNode.size)
+            let inner = CGRect(
+                origin: CGPoint(x: frame.midX - 25, y: frame.midY - 25),
+                size: CGSize(width: ballNode.size.width - 10, height: ballNode.size.height - 10)
+            )
             return inner.contains(ballNode.position)
         }
         if let bucketNode {
