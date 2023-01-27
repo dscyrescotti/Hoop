@@ -4,7 +4,7 @@ import SpriteKit
 public struct GameBoardView: View {
     @StateObject var viewModel: GameBoardViewModel
 
-    private var gameBoardScene: SKScene
+    private var gameBoardScene: GameBoardScene
 
     public init(_ viewModel: GameBoardViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -24,6 +24,29 @@ public struct GameBoardView: View {
             }
         }
         .ignoresSafeArea()
+        .overlay {
+            if viewModel.gameState == .miss {
+                gameOverAlert
+                    .transition(.scale)
+            }
+        }
+    }
+
+    private var gameOverAlert: some View {
+        VStack {
+            Text("Game Over!")
+            Button {
+                viewModel.restartTrigger.send()
+            } label: {
+                Text("Restart")
+            }
+            Button {
+
+            } label: {
+                Text("Go to Home")
+            }
+
+        }
     }
 
     private var debugOptions: SpriteView.DebugOptions = {

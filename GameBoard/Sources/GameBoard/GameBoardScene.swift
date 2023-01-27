@@ -25,6 +25,13 @@ class GameBoardScene: SKScene {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    override func sceneDidLoad() {
+        super.sceneDidLoad()
+        viewModel.restartGame { [weak self] in
+            self?.restartNewGame()
+        }
+    }
 }
 
 // MARK: - SCENE
@@ -42,14 +49,14 @@ extension GameBoardScene {
         /// add left wall
         let leftWallNode = SKNode()
         leftWallNode.position = CGPoint(x: frame.minX - 1, y: frame.midY)
-        let leftWallPhysicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: frame.height))
+        let leftWallPhysicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: frame.height * 2))
         leftWallPhysicsBody.isDynamic = false
         leftWallNode.physicsBody = leftWallPhysicsBody
         addChild(leftWallNode)
         /// add right wall
         let rightWallNode = SKNode()
         rightWallNode.position = CGPoint(x: frame.maxX + 1, y: frame.midY)
-        let rightWallPhysicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: frame.height))
+        let rightWallPhysicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: frame.height * 2))
         rightWallPhysicsBody.isDynamic = false
         rightWallNode.physicsBody = rightWallPhysicsBody
         addChild(rightWallNode)
@@ -57,21 +64,55 @@ extension GameBoardScene {
         scaleMode = .aspectFit
     }
 
-    func prepareForNextRound() {
-        viewModel.prepareForNextRound(on: frame, with: ballNode?.position ?? .zero)
+    func prepareForNextRound(_ bucketNode: SKSpriteNode) {
         ballNode?.physicsBody?.isDynamic = false
-        let bucketNode = hoopNodes.removeFirst()
-        bucketNode.removeFromParent()
-        if let newHoop = viewModel.hoops.last {
-            let hoopNode = loadHoopNode(newHoop)
-            addChild(hoopNode)
-            hoopNodes.append(hoopNode)
+        var count = 0
+        while true && count < 3 {
+            let hoopNode = hoopNodes.removeFirst()
+            hoopNode.removeFromParent()
+            count += 1
+            if bucketNode === hoopNode {
+                break
+            }
         }
-        ballNode?.run(.moveTo(y: viewModel.ball.location.y, duration: 1))
+        for _ in 0..<count {
+            viewModel.prepareForNextRound(on: frame, with: ballNode?.position ?? .zero)
+            if let newHoop = viewModel.hoops.last {
+                let hoopNode = loadHoopNode(newHoop)
+                addChild(hoopNode)
+                hoopNodes.append(hoopNode)
+            }
+        }
+        let duration = 0.5 * Double(count)
+        ballNode?.run(.moveTo(y: viewModel.ball.location.y, duration: duration))
         for (index, hoop) in viewModel.hoops.enumerated() {
-            hoopNodes[index].run(.moveTo(y: hoop.location.y, duration: 1))
+            let moveDown = SKAction.moveTo(y: hoop.location.y, duration: duration)
+            let wait = SKAction.wait(forDuration: 0.1 * Double(index + 1))
+            hoopNodes[index].run(.sequence([wait, moveDown]))
         }
         startAnimationOnBallNode()
+    }
+
+    func restartNewGame() {
+        ballNode?.removeFromParent()
+        for (index, hoopNode) in hoopNodes.enumerated() {
+            let wait = SKAction.wait(forDuration: 0.3 - 0.1 * Double(index))
+            let moveUp = SKAction.moveTo(y: frame.maxY + 100, duration: 0.5)
+            let remove = SKAction.removeFromParent()
+            hoopNode.run(SKAction.sequence([wait, moveUp, remove]))
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.reloadNewGame()
+        }
+    }
+
+    func reloadNewGame() {
+        hoopNodes.removeAll()
+        viewModel.loadGame(on: frame)
+        configureBallNode()
+        configureHoopNodes()
+        startAnimationOnBallNode()
+        viewModel.gameState = .idle
     }
 }
 
@@ -83,7 +124,7 @@ extension GameBoardScene {
         let ballNode = SKSpriteNode(texture: texture)
         ballNode.name = GameBoardScene.ballNodeId
         ballNode.size = CGSize(width: 50, height: 50)
-        ballNode.position = viewModel.ball.location
+        ballNode.position = CGPoint(x: viewModel.ball.location.x, y: frame.maxY + 100)
         addChild(ballNode)
         self.ballNode = ballNode
         /// set up the physics body with bouncing behaviour
@@ -92,6 +133,7 @@ extension GameBoardScene {
         physicsBody.restitution = 0.4
         physicsBody.isDynamic = false
         ballNode.physicsBody = physicsBody
+        ballNode.run(.moveTo(y: viewModel.ball.location.y, duration: 0.5))
     }
 
     func startAnimationOnBallNode() {
@@ -155,10 +197,13 @@ extension GameBoardScene {
 // MARK: - HOOP
 extension GameBoardScene {
     func configureHoopNodes() {
-        for hoop in viewModel.hoops {
+        for (index, hoop) in viewModel.hoops.enumerated() {
             let hoopNode = loadHoopNode(hoop)
             addChild(hoopNode)
             hoopNodes.append(hoopNode)
+            let moveDown = SKAction.moveTo(y: hoop.location.y, duration: 0.5)
+            let wait = SKAction.wait(forDuration: 0.1 * Double(index + 1))
+            hoopNode.run(.sequence([wait, moveDown]))
         }
     }
 
@@ -167,7 +212,7 @@ extension GameBoardScene {
         let hoopNode = SKSpriteNode(texture: texture)
         hoopNode.name = GameBoardScene.hoopNodeId
         hoopNode.size = CGSize(width: 80, height: 80)
-        hoopNode.position = hoop.location
+        hoopNode.position = CGPoint(x: hoop.location.x, y: frame.maxY + 100)
         let bucketTexture = SKTexture(image: .loadImage(.hoopTexture))
         let physicsBody = SKPhysicsBody(texture: bucketTexture, size: hoopNode.size)
         physicsBody.isDynamic = false
@@ -185,11 +230,11 @@ extension GameBoardScene {
             let inner = CGRect(origin: CGPoint(x: frame.midX - 25, y: frame.midY - 25), size: ballNode.size)
             return inner.contains(ballNode.position)
         }
-        if bucketNode != nil {
+        if let bucketNode {
             viewModel.gameState = .bucket
-            prepareForNextRound()
+            prepareForNextRound(bucketNode)
             viewModel.gameState = .idle
-        } else if !frame.contains(ballNode.position) {
+        } else if ballNode.position.y < 0 {
             viewModel.gameState = .miss
         }
     }

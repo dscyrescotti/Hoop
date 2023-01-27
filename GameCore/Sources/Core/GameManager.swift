@@ -15,13 +15,16 @@ public class GameManager {
 
 // MARK: - GAME LOADING
 extension GameManager {
+    /// load the new game
     public func loadNewGame(on frame: CGRect) {
         seedBall(on: frame)
+        hoops.removeAll()
         for index in 1...3 {
             seedHoop(on: frame, for: index)
         }
     }
 
+    /// prepare for next shot
     public func prepareForNextRound(on frame: CGRect, with location: CGPoint) {
         ball.location = location
         ball.location.y = baseLine
@@ -33,10 +36,10 @@ extension GameManager {
         seedHoop(on: frame)
     }
 
-    // seed ball on frame arbitrarily
+    /// seed ball on frame arbitrarily
     private func seedBall(on frame: CGRect) {
         alignment = .random(.center)
-        baseLine = frame.minY + 250
+        baseLine = frame.minY + 200
         let ballPosition = CGPoint(
             x: frame.midX + alignment.offset + .tolerance(for: 20),
             y: baseLine
@@ -44,11 +47,11 @@ extension GameManager {
         ball = Ball(location: ballPosition)
     }
 
-    // seed hoop on frame arbitrarily
+    /// seed hoop on frame arbitrarily
     private func seedHoop(on frame: CGRect, for index: Int = 3) {
         alignment = .random(alignment)
         let x = frame.midX + alignment.offset + .tolerance(for: 10)
-        let y = baseLine + 250 * CGFloat(index) + .tolerance(for: 30)
+        let y = baseLine + 250 * CGFloat(index) + .tolerance(for: 40)
         let hoopPosition = CGPoint(x: x, y: y)
         let hoop = Hoop(
             location: hoopPosition,
