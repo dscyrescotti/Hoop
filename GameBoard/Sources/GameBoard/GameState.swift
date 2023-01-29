@@ -4,4 +4,5 @@ enum GameState {
     case shoot
     case bucket
     case miss
+    case gameOver
 }

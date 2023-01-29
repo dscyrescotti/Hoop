@@ -7,6 +7,9 @@ public class GameBoardViewModel: ObservableObject {
     let dependency: GameBoardDependency
 
     @Published var gameState: GameState = .idle
+    @Published var points: Int = .zero
+    @Published var winningSteak: Int = .zero
+    @Published var lives: Int = .zero
 
     lazy private(set) var restartTrigger = PassthroughSubject<Void, Never>()
 
@@ -21,6 +24,9 @@ public class GameBoardViewModel: ObservableObject {
 
     func loadGame(on frame: CGRect) {
         dependency.gameManager.loadNewGame(on: frame)
+        points = .zero
+        winningSteak = .zero
+        lives = 3
     }
 
     func prepareForNextRound(on frame: CGRect, with location: CGPoint) {
@@ -31,5 +37,32 @@ public class GameBoardViewModel: ObservableObject {
         restartTrigger
             .sink(receiveValue: action)
             .store(in: &cancellables)
+    }
+
+    func calculatePoints(_ count: Int, isBankShot: Bool) {
+        dependency.gameManager.calculatePoints(count, isBankShot: isBankShot)
+        let gainedPoints = dependency.gameManager.points - self.points
+        withAnimation {
+            let animationDuration = 500
+            let steps = min(abs(gainedPoints), 100)
+            let stepDuration = (animationDuration / steps)
+            self.points += gainedPoints % steps
+            (0..<steps).forEach { step in
+                let updateTimeInterval = DispatchTimeInterval.milliseconds(step * stepDuration)
+                let deadline = DispatchTime.now() + updateTimeInterval
+                DispatchQueue.main.asyncAfter(deadline: deadline) {
+                    self.points += Int(gainedPoints / steps)
+                }
+            }
+        }
+        self.winningSteak = dependency.gameManager.winningSteak
+    }
+
+    func calculateMissing() {
+        dependency.gameManager.calculateMissing()
+        winningSteak = .zero
+        withAnimation {
+            lives -= 1
+        }
     }
 }

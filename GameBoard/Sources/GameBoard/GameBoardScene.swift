@@ -8,12 +8,16 @@ class GameBoardScene: SKScene {
     static private let ballNodeId = "gameboard.ball"
     static private let hoopNodeId = "gameboard.hoop"
 
+    static private let ballCategory: UInt32 = 1 << 1
+    static private let wallCategory: UInt32 = 1 << 2
+
     // MARK: - PROPERTIES
     var ballNode: SKSpriteNode?
     var trajectoryNodes: [SKShapeNode] = []
     var hoopNodes: [SKSpriteNode] = []
 
     var dragOrigin: CGPoint = .zero
+    var isBankShot: Bool = false
 
     let viewModel: GameBoardViewModel
 
@@ -55,6 +59,8 @@ extension GameBoardScene {
         leftWallNode.position = CGPoint(x: frame.minX - 1, y: frame.midY)
         let leftWallPhysicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: frame.height * 2))
         leftWallPhysicsBody.isDynamic = false
+        leftWallPhysicsBody.categoryBitMask = Self.wallCategory
+        leftWallPhysicsBody.collisionBitMask = 0
         leftWallNode.physicsBody = leftWallPhysicsBody
         addChild(leftWallNode)
         /// add right wall
@@ -62,10 +68,13 @@ extension GameBoardScene {
         rightWallNode.position = CGPoint(x: frame.maxX + 1, y: frame.midY)
         let rightWallPhysicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: frame.height * 2))
         rightWallPhysicsBody.isDynamic = false
+        rightWallPhysicsBody.categoryBitMask = Self.wallCategory
+        rightWallPhysicsBody.collisionBitMask = 0
         rightWallNode.physicsBody = rightWallPhysicsBody
         addChild(rightWallNode)
         /// update scale mode
         scaleMode = .aspectFit
+        physicsWorld.contactDelegate = self
     }
 
     func prepareForNextRound(_ bucketNode: SKSpriteNode) {
@@ -88,6 +97,7 @@ extension GameBoardScene {
     }
 
     func loadNextHoop(_ bucketNode: SKSpriteNode, count: Int) {
+        viewModel.calculatePoints(count, isBankShot: isBankShot)
         for _ in 0..<count {
             viewModel.prepareForNextRound(on: frame, with: ballNode?.position ?? .zero)
             if let newHoop = viewModel.hoops.last {
@@ -104,6 +114,22 @@ extension GameBoardScene {
             hoopNodes[index].run(.sequence([wait, moveDown]))
         }
         self.startAnimationOnBallNode()
+        isBankShot = false
+    }
+
+    func handleMissing() {
+        isBankShot = false
+        viewModel.calculateMissing()
+        if viewModel.lives == 0 {
+            viewModel.gameState = .gameOver
+        } else {
+            ballNode?.physicsBody?.isDynamic = false
+            ballNode?.position = viewModel.ball.location
+            ballNode?.alpha = 0
+            ballNode?.run(.fadeIn(withDuration: 0.5))
+            startAnimationOnBallNode()
+            viewModel.gameState = .idle
+        }
     }
 
     func restartNewGame() {
@@ -146,6 +172,8 @@ extension GameBoardScene {
         physicsBody.friction = 0
         physicsBody.restitution = 0.4
         physicsBody.isDynamic = false
+        physicsBody.categoryBitMask = Self.ballCategory
+        physicsBody.collisionBitMask = Self.wallCategory
         physicsBody.contactTestBitMask = physicsBody.collisionBitMask
         ballNode.physicsBody = physicsBody
         ballNode.run(.moveTo(y: viewModel.ball.location.y, duration: 0.5))
@@ -254,6 +282,21 @@ extension GameBoardScene {
             viewModel.gameState = .idle
         } else if ballNode.position.y < 0 {
             viewModel.gameState = .miss
+            handleMissing()
+        }
+    }
+}
+
+// MARK: - CONTACT
+extension GameBoardScene: SKPhysicsContactDelegate {
+    func didBegin(_ contact: SKPhysicsContact) {
+        guard viewModel.gameState == .shoot else { return }
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        switch contactMask {
+        case Self.ballCategory | Self.wallCategory:
+            isBankShot = true
+        default:
+            break
         }
     }
 }

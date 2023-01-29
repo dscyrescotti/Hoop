@@ -26,10 +26,36 @@ public struct GameBoardView: View {
         }
         .ignoresSafeArea()
         .overlay {
-            if viewModel.gameState == .miss {
+            if viewModel.gameState == .gameOver {
                 gameOverAlert
                     .transition(.scale)
             }
+        }
+        .overlay(alignment: .top) {
+            HStack(alignment: .top) {
+                HStack {
+                    ForEach(0..<viewModel.lives, id: \.self) { _ in
+                        Image.loadImage(.heartFill)
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                    }
+                }
+                .padding(.vertical, 5)
+                Spacer()
+                VStack(alignment: .trailing, spacing: 5) {
+                    HStack {
+                        Text(viewModel.points, format: .number)
+                        Image.loadImage(.basketball)
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                    }
+                    Text("x\(max(viewModel.winningSteak, 1))")
+                }
+            }
+            .font(.title.bold())
+            .multilineTextAlignment(.trailing)
+            .foregroundColor(.of(.rust))
+            .padding(.horizontal, 20)
         }
     }
 
