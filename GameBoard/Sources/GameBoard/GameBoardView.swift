@@ -16,7 +16,6 @@ public struct GameBoardView: View {
             SpriteView(
                 scene: gameBoardScene,
                 transition: .doorsCloseVertical(withDuration: 1),
-                preferredFramesPerSecond: 200,
                 debugOptions: debugOptions
             )
             .onAppear {

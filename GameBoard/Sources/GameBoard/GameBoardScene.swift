@@ -7,6 +7,9 @@ class GameBoardScene: SKScene {
     static private let ballNodeId = "gameboard.ball"
     static private let hoopNodeId = "gameboard.hoop"
 
+    static private let ballCategory: UInt32 = 1 << 1
+    static private let hoopCategory: UInt32 = 1 << 2
+
     // MARK: - PROPERTIES
     var ballNode: SKSpriteNode?
     var trajectoryNodes: [SKShapeNode] = []
@@ -62,6 +65,7 @@ extension GameBoardScene {
         addChild(rightWallNode)
         /// update scale mode
         scaleMode = .aspectFit
+        physicsWorld.contactDelegate = self
     }
 
     func prepareForNextRound(_ bucketNode: SKSpriteNode) {
@@ -142,6 +146,9 @@ extension GameBoardScene {
         physicsBody.friction = 5
         physicsBody.restitution = 0.4
         physicsBody.isDynamic = false
+        physicsBody.categoryBitMask = Self.ballCategory
+        physicsBody.collisionBitMask = Self.hoopCategory
+        physicsBody.contactTestBitMask = physicsBody.collisionBitMask
         ballNode.physicsBody = physicsBody
         ballNode.run(.moveTo(y: viewModel.ball.location.y, duration: 0.5))
     }
@@ -226,29 +233,44 @@ extension GameBoardScene {
         let bucketTexture = SKTexture(image: .loadImage(.hoopTexture))
         let physicsBody = SKPhysicsBody(texture: bucketTexture, size: hoopNode.size)
         physicsBody.isDynamic = false
+        physicsBody.categoryBitMask = Self.hoopCategory
+        physicsBody.collisionBitMask = 0
         hoopNode.physicsBody = physicsBody
         return hoopNode
     }
 }
 
+// MARK: - UPDATE
 extension GameBoardScene {
     override func update(_ currentTime: TimeInterval) {
+        guard viewModel.gameState == .shoot, let ballNode else { return }
+        if ballNode.position.y < 0 {
+            viewModel.gameState = .miss
+        }
+    }
+}
+
+// MARK: - CONTACT
+extension GameBoardScene: SKPhysicsContactDelegate {
+    func didBegin(_ contact: SKPhysicsContact) {
         guard viewModel.gameState == .shoot else { return }
-        guard let ballNode else { return }
-        let bucketNode = hoopNodes.first {
-            let frame = $0.frame
-            let inner = CGRect(
-                origin: CGPoint(x: frame.midX - 25, y: frame.midY - 25),
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        switch contactMask {
+        case Self.ballCategory | Self.hoopCategory:
+            let isBallNode = contact.bodyA.categoryBitMask == Self.ballCategory
+            guard let ballNode = (isBallNode ? contact.bodyA.node : contact.bodyB.node) as? SKSpriteNode  else { return }
+            guard let hoopNode = (isBallNode ? contact.bodyB.node : contact.bodyA.node) as? SKSpriteNode else { return }
+            let frame = CGRect(
+                origin: CGPoint(x: hoopNode.frame.midX - 20, y: hoopNode.frame.midY - 20),
                 size: CGSize(width: ballNode.size.width - 10, height: ballNode.size.height - 10)
             )
-            return inner.contains(ballNode.position)
-        }
-        if let bucketNode {
-            viewModel.gameState = .bucket
-            prepareForNextRound(bucketNode)
-            viewModel.gameState = .idle
-        } else if ballNode.position.y < 0 {
-            viewModel.gameState = .miss
+            if frame.contains(ballNode.position) {
+                viewModel.gameState = .bucket
+                prepareForNextRound(hoopNode)
+                viewModel.gameState = .idle
+            }
+        default:
+            break
         }
     }
 }
