@@ -206,10 +206,11 @@ extension GameBoardScene {
         for index in 0...10 {
             let radius = 5 - CGFloat(index) * 0.3
             let trajectoryNode = SKShapeNode(circleOfRadius: radius)
-            let color = UIColor.red.withAlphaComponent(1 - CGFloat(index) * 0.09)
+            let color = UIColor.of(.nonPhotoBlue).withAlphaComponent(1 - CGFloat(index) * 0.09)
             trajectoryNode.fillColor = color
             trajectoryNode.strokeColor = color
             trajectoryNode.isHidden = true
+            trajectoryNode.zPosition = -100
             addChild(trajectoryNode)
             trajectoryNodes.append(trajectoryNode)
         }
