@@ -1,4 +1,5 @@
 import Model
+import SwiftUI
 import SpriteKit
 import DesignSystem
 
@@ -31,6 +32,9 @@ class GameBoardScene: SKScene {
 
     override func sceneDidLoad() {
         super.sceneDidLoad()
+        /// set up the appearance
+        backgroundColor = .of(.ceruleanCrayola)
+        /// bind the trigger
         viewModel.restartGame { [weak self] in
             self?.restartNewGame()
         }
@@ -245,7 +249,9 @@ extension GameBoardScene {
     override func update(_ currentTime: TimeInterval) {
         guard viewModel.gameState == .shoot, let ballNode else { return }
         if ballNode.position.y < 0 {
-            viewModel.gameState = .miss
+            withAnimation {
+                viewModel.gameState = .miss
+            }
         }
     }
 }
