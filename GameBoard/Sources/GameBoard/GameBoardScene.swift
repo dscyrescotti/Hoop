@@ -107,6 +107,7 @@ extension GameBoardScene {
     }
 
     func restartNewGame() {
+        viewModel.gameState = .idle
         ballNode?.removeFromParent()
         for (index, hoopNode) in hoopNodes.enumerated() {
             let wait = SKAction.wait(forDuration: 0.3 - 0.1 * Double(index))
@@ -125,7 +126,6 @@ extension GameBoardScene {
         configureBallNode()
         configureHoopNodes()
         startAnimationOnBallNode()
-        viewModel.gameState = .idle
     }
 }
 

@@ -6,9 +6,9 @@ public class GameManager {
     public var hoops: Hoops = []
     public var ball: Ball = Ball()
     public var alignment: NodeAlignment = .random()
-    public var baseLine: CGFloat = .zero
-
     public var point: Int = .zero
+
+    public var baseLine: CGFloat = .zero
 
     public init() { }
 }

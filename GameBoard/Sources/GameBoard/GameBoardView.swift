@@ -33,20 +33,34 @@ public struct GameBoardView: View {
     }
 
     private var gameOverAlert: some View {
-        VStack {
+        VStack(spacing: 15) {
             Text("Game Over!")
+                .font(.title.bold())
+                .foregroundColor(.black)
             Button {
                 viewModel.restartTrigger.send()
             } label: {
-                Text("Restart")
+                Label {
+                    Text("Restart")
+                } icon: {
+                    Image.loadImage(.arrowCounterclockwise)
+                }
             }
             Button {
 
             } label: {
-                Text("Go to Home")
+                Label {
+                    Text("Return Home")
+                } icon: {
+                    Image.loadImage(.house)
+                }
             }
-
         }
+        .buttonStyle(.springButtonStyle)
+        .padding(24)
+        .background(Color.of(.deepChampagne))
+        .cornerRadius(15)
+        .padding(.horizontal, 24)
     }
 
     private var debugOptions: SpriteView.DebugOptions = {
