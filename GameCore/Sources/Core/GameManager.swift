@@ -81,13 +81,16 @@ extension GameManager {
         let x = frame.midX + alignment.offset(frame.width) + .tolerance(for: 10)
         let y = baseLine + 250 * CGFloat(index) + .tolerance(for: 40)
         var degree = alignment.degree
+        let isDynamic = Bool.random()
         if alignment == .center {
             degree += -previous.degree
         }
         let hoopPosition = CGPoint(x: x, y: y)
         let hoop = Hoop(
             location: hoopPosition,
-            degree: degree
+            degree: degree,
+            isDynamic: isDynamic,
+            alignment: alignment
         )
         hoops.append(hoop)
     }

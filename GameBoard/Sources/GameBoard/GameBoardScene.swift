@@ -245,6 +245,7 @@ extension GameBoardScene {
             let hoopNode = loadHoopNode(hoop)
             addChild(hoopNode)
             hoopNodes.append(hoopNode)
+            /// add normal animation
             let moveDown = SKAction.moveTo(y: hoop.location.y, duration: 0.5)
             let wait = SKAction.wait(forDuration: 0.1 * Double(index + 1))
             hoopNode.run(.sequence([wait, moveDown]))
@@ -262,6 +263,22 @@ extension GameBoardScene {
         let physicsBody = SKPhysicsBody(texture: bucketTexture, size: hoopNode.size)
         physicsBody.isDynamic = false
         hoopNode.physicsBody = physicsBody
+        if hoop.isDynamic {
+            var start = hoop.location.x
+            var end = start
+            switch hoop.alignment {
+            case .left:
+                end += 50
+            case .right:
+                end -= 50
+            case .center:
+                end += 25
+                start -= 25
+            }
+            let moveForward = SKAction.moveTo(x: end, duration: 1.5)
+            let moveBackward = SKAction.moveTo(x: start, duration: 1.5)
+            hoopNode.run(.repeatForever(.sequence([moveForward, moveBackward])))
+        }
         return hoopNode
     }
 }
