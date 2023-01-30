@@ -13,14 +13,26 @@ public enum NodeAlignment: CaseIterable {
         return alignment
     }
 
-    public var offset: CGFloat {
+    public func offset(_ width: CGFloat) -> CGFloat {
+        let shift = width / 3
         switch self {
         case .left:
-            return -100
+            return -shift
         case .center:
             return 0
         case .right:
-            return 100
+            return shift
+        }
+    }
+
+    public var degree: CGFloat {
+        switch self {
+        case .left:
+            return [0, -0.05, -0.1, -0.14, -0.2].randomElement() ?? 0
+        case .center:
+            return 0
+        case .right:
+            return [0, 0.05, 0.1, 0.14, 0.2].randomElement() ?? 0
         }
     }
 }

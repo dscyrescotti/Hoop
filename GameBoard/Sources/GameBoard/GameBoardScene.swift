@@ -257,6 +257,7 @@ extension GameBoardScene {
         hoopNode.name = GameBoardScene.hoopNodeId
         hoopNode.size = CGSize(width: 80, height: 80)
         hoopNode.position = CGPoint(x: hoop.location.x, y: frame.maxY + 100)
+        hoopNode.zRotation = hoop.degree
         let bucketTexture = SKTexture(image: .loadImage(.hoopTexture))
         let physicsBody = SKPhysicsBody(texture: bucketTexture, size: hoopNode.size)
         physicsBody.isDynamic = false
