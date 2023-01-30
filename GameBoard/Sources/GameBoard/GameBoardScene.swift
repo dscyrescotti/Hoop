@@ -35,9 +35,12 @@ class GameBoardScene: SKScene {
         super.sceneDidLoad()
         /// set up the appearance
         backgroundColor = .of(.ceruleanCrayola)
-        /// bind the trigger
+        /// bind the triggers
         viewModel.restartGame { [weak self] in
             self?.restartNewGame()
+        }
+        viewModel.handleAirBall { [weak self] in
+            self?.handleAirBall()
         }
     }
 }
@@ -78,6 +81,7 @@ extension GameBoardScene {
     }
 
     func prepareForNextRound(_ bucketNode: SKSpriteNode) {
+        viewModel.cancelTimer()
         ballNode?.physicsBody?.isDynamic = false
         let scaleUp = SKAction.scale(to: 1.5, duration: 0.1)
         let scaleDown = SKAction.scale(to: 1, duration: 0.2)
@@ -119,9 +123,12 @@ extension GameBoardScene {
 
     func handleMissing() {
         isBankShot = false
+        viewModel.cancelTimer()
         viewModel.calculateMissing()
         if viewModel.lives == 0 {
-            viewModel.gameState = .gameOver
+            withAnimation {
+                viewModel.gameState = .gameOver
+            }
         } else {
             ballNode?.physicsBody?.isDynamic = false
             ballNode?.position = viewModel.ball.location
@@ -129,6 +136,13 @@ extension GameBoardScene {
             ballNode?.run(.fadeIn(withDuration: 0.5))
             startAnimationOnBallNode()
             viewModel.gameState = .idle
+        }
+    }
+
+    func handleAirBall() {
+        ballNode?.run(.fadeOut(withDuration: 0.5))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.handleMissing()
         }
     }
 
@@ -356,6 +370,7 @@ extension GameBoardScene {
             let velocityX = (dragOrigin.x - location.x) / 1.65
             let velocityY = (dragOrigin.y - location.y) / 1.65
             shootBall(with: velocityX, and: velocityY)
+            viewModel.startTimer()
         }
     }
 }
