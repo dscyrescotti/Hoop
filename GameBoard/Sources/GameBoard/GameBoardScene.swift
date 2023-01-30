@@ -1,4 +1,5 @@
 import Model
+import SwiftUI
 import SpriteKit
 import DesignSystem
 
@@ -7,12 +8,16 @@ class GameBoardScene: SKScene {
     static private let ballNodeId = "gameboard.ball"
     static private let hoopNodeId = "gameboard.hoop"
 
+    static private let ballCategory: UInt32 = 1 << 1
+    static private let wallCategory: UInt32 = 1 << 2
+
     // MARK: - PROPERTIES
     var ballNode: SKSpriteNode?
     var trajectoryNodes: [SKShapeNode] = []
     var hoopNodes: [SKSpriteNode] = []
 
     var dragOrigin: CGPoint = .zero
+    var isBankShot: Bool = false
 
     let viewModel: GameBoardViewModel
 
@@ -28,6 +33,9 @@ class GameBoardScene: SKScene {
 
     override func sceneDidLoad() {
         super.sceneDidLoad()
+        /// set up the appearance
+        backgroundColor = .of(.ceruleanCrayola)
+        /// bind the trigger
         viewModel.restartGame { [weak self] in
             self?.restartNewGame()
         }
@@ -51,6 +59,8 @@ extension GameBoardScene {
         leftWallNode.position = CGPoint(x: frame.minX - 1, y: frame.midY)
         let leftWallPhysicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: frame.height * 2))
         leftWallPhysicsBody.isDynamic = false
+        leftWallPhysicsBody.categoryBitMask = Self.wallCategory
+        leftWallPhysicsBody.collisionBitMask = 0
         leftWallNode.physicsBody = leftWallPhysicsBody
         addChild(leftWallNode)
         /// add right wall
@@ -58,10 +68,13 @@ extension GameBoardScene {
         rightWallNode.position = CGPoint(x: frame.maxX + 1, y: frame.midY)
         let rightWallPhysicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: frame.height * 2))
         rightWallPhysicsBody.isDynamic = false
+        rightWallPhysicsBody.categoryBitMask = Self.wallCategory
+        rightWallPhysicsBody.collisionBitMask = 0
         rightWallNode.physicsBody = rightWallPhysicsBody
         addChild(rightWallNode)
         /// update scale mode
         scaleMode = .aspectFit
+        physicsWorld.contactDelegate = self
     }
 
     func prepareForNextRound(_ bucketNode: SKSpriteNode) {
@@ -84,6 +97,7 @@ extension GameBoardScene {
     }
 
     func loadNextHoop(_ bucketNode: SKSpriteNode, count: Int) {
+        viewModel.calculatePoints(count, isBankShot: isBankShot)
         for _ in 0..<count {
             viewModel.prepareForNextRound(on: frame, with: ballNode?.position ?? .zero)
             if let newHoop = viewModel.hoops.last {
@@ -100,9 +114,26 @@ extension GameBoardScene {
             hoopNodes[index].run(.sequence([wait, moveDown]))
         }
         self.startAnimationOnBallNode()
+        isBankShot = false
+    }
+
+    func handleMissing() {
+        isBankShot = false
+        viewModel.calculateMissing()
+        if viewModel.lives == 0 {
+            viewModel.gameState = .gameOver
+        } else {
+            ballNode?.physicsBody?.isDynamic = false
+            ballNode?.position = viewModel.ball.location
+            ballNode?.alpha = 0
+            ballNode?.run(.fadeIn(withDuration: 0.5))
+            startAnimationOnBallNode()
+            viewModel.gameState = .idle
+        }
     }
 
     func restartNewGame() {
+        viewModel.gameState = .idle
         ballNode?.removeFromParent()
         for (index, hoopNode) in hoopNodes.enumerated() {
             let wait = SKAction.wait(forDuration: 0.3 - 0.1 * Double(index))
@@ -121,7 +152,6 @@ extension GameBoardScene {
         configureBallNode()
         configureHoopNodes()
         startAnimationOnBallNode()
-        viewModel.gameState = .idle
     }
 }
 
@@ -139,9 +169,12 @@ extension GameBoardScene {
         /// set up the physics body with bouncing behaviour
         let physicsBody = SKPhysicsBody(texture: texture, alphaThreshold: 0.1, size: ballNode.size)
         physicsBody.allowsRotation = true
-        physicsBody.friction = 5
+        physicsBody.friction = 0
         physicsBody.restitution = 0.4
         physicsBody.isDynamic = false
+        physicsBody.categoryBitMask = Self.ballCategory
+        physicsBody.collisionBitMask = Self.wallCategory
+        physicsBody.contactTestBitMask = physicsBody.collisionBitMask
         ballNode.physicsBody = physicsBody
         ballNode.run(.moveTo(y: viewModel.ball.location.y, duration: 0.5))
     }
@@ -173,10 +206,11 @@ extension GameBoardScene {
         for index in 0...10 {
             let radius = 5 - CGFloat(index) * 0.3
             let trajectoryNode = SKShapeNode(circleOfRadius: radius)
-            let color = UIColor.red.withAlphaComponent(1 - CGFloat(index) * 0.09)
+            let color = UIColor.of(.nonPhotoBlue).withAlphaComponent(1 - CGFloat(index) * 0.09)
             trajectoryNode.fillColor = color
             trajectoryNode.strokeColor = color
             trajectoryNode.isHidden = true
+            trajectoryNode.zPosition = -100
             addChild(trajectoryNode)
             trajectoryNodes.append(trajectoryNode)
         }
@@ -231,10 +265,10 @@ extension GameBoardScene {
     }
 }
 
+// MARK: - UPDATE
 extension GameBoardScene {
     override func update(_ currentTime: TimeInterval) {
-        guard viewModel.gameState == .shoot else { return }
-        guard let ballNode else { return }
+        guard viewModel.gameState == .shoot, let ballNode else { return }
         let bucketNode = hoopNodes.first {
             let frame = $0.frame
             let inner = CGRect(
@@ -249,6 +283,21 @@ extension GameBoardScene {
             viewModel.gameState = .idle
         } else if ballNode.position.y < 0 {
             viewModel.gameState = .miss
+            handleMissing()
+        }
+    }
+}
+
+// MARK: - CONTACT
+extension GameBoardScene: SKPhysicsContactDelegate {
+    func didBegin(_ contact: SKPhysicsContact) {
+        guard viewModel.gameState == .shoot else { return }
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        switch contactMask {
+        case Self.ballCategory | Self.wallCategory:
+            isBankShot = true
+        default:
+            break
         }
     }
 }

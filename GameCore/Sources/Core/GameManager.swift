@@ -6,9 +6,11 @@ public class GameManager {
     public var hoops: Hoops = []
     public var ball: Ball = Ball()
     public var alignment: NodeAlignment = .random()
-    public var baseLine: CGFloat = .zero
+    public var points: Int = .zero
+    public var winningSteak: Int = .zero
+    public var lives: Int = .zero
 
-    public var point: Int = .zero
+    public var baseLine: CGFloat = .zero
 
     public init() { }
 }
@@ -17,6 +19,9 @@ public class GameManager {
 extension GameManager {
     /// load the new game
     public func loadNewGame(on frame: CGRect) {
+        points = 0
+        winningSteak = 0
+        lives = 3
         seedBall(on: frame)
         hoops.removeAll()
         for index in 1...3 {
@@ -34,6 +39,28 @@ extension GameManager {
             hoops[index].location.y -= diff
         }
         seedHoop(on: frame)
+    }
+
+    /// calculate points after shot
+    public func calculatePoints(_ count: Int, isBankShot: Bool) {
+        var points = 3
+        if count > 1 {
+            points += 2 * (count - 1)
+        }
+        if isBankShot {
+            points += 2
+        }
+        if winningSteak >= 2 {
+            points *= winningSteak
+        }
+        winningSteak += 1
+        self.points += points
+    }
+
+    /// handle ball missing
+    public func calculateMissing() {
+        winningSteak = .zero
+        lives -= 1
     }
 
     /// seed ball on frame arbitrarily
