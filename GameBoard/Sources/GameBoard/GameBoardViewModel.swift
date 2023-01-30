@@ -12,6 +12,9 @@ public class GameBoardViewModel: ObservableObject {
     @Published var lives: Int = .zero
 
     lazy private(set) var restartTrigger = PassthroughSubject<Void, Never>()
+    lazy private(set) var airBallTrigger = PassthroughSubject<Void, Never>()
+
+    var timer: AnyCancellable?
 
     var ball: Ball { dependency.gameManager.ball }
     var hoops: Hoops { dependency.gameManager.hoops }
@@ -35,6 +38,12 @@ public class GameBoardViewModel: ObservableObject {
 
     func restartGame(action: @escaping () -> Void) {
         restartTrigger
+            .sink(receiveValue: action)
+            .store(in: &cancellables)
+    }
+
+    func handleAirBall(action: @escaping () -> Void) {
+        airBallTrigger
             .sink(receiveValue: action)
             .store(in: &cancellables)
     }
@@ -64,5 +73,28 @@ public class GameBoardViewModel: ObservableObject {
         withAnimation {
             lives -= 1
         }
+    }
+
+    func startTimer() {
+        let start = Date()
+        timer = Timer.publish(every: 1.0, on: .main, in: .common)
+            .autoconnect()
+            .map { output in
+                output.timeIntervalSince(start)
+            }
+            .map { timeInterval in
+                Int(timeInterval)
+            }
+            .sink { [weak self] seconds in
+                if seconds >= 10 {
+                    self?.airBallTrigger.send()
+                    self?.cancelTimer()
+                }
+            }
+    }
+
+    func cancelTimer() {
+        timer?.cancel()
+        timer = nil
     }
 }

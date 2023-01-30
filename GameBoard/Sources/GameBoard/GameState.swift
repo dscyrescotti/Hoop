@@ -5,4 +5,5 @@ enum GameState {
     case bucket
     case miss
     case gameOver
+    case airBall
 }

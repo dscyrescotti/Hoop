@@ -68,7 +68,7 @@ extension GameManager {
         alignment = .random(.center)
         baseLine = frame.minY + 200
         let ballPosition = CGPoint(
-            x: frame.midX + alignment.offset + .tolerance(for: 20),
+            x: frame.midX + alignment.offset(frame.width) + .tolerance(for: 20),
             y: baseLine
         )
         ball = Ball(location: ballPosition)
@@ -76,13 +76,21 @@ extension GameManager {
 
     /// seed hoop on frame arbitrarily
     private func seedHoop(on frame: CGRect, for index: Int = 3) {
+        let previous = alignment
         alignment = .random(alignment)
-        let x = frame.midX + alignment.offset + .tolerance(for: 10)
+        let x = frame.midX + alignment.offset(frame.width) + .tolerance(for: 10)
         let y = baseLine + 250 * CGFloat(index) + .tolerance(for: 40)
+        var degree = alignment.degree
+        let isDynamic = Bool.random()
+        if alignment == .center {
+            degree += -previous.degree
+        }
         let hoopPosition = CGPoint(x: x, y: y)
         let hoop = Hoop(
             location: hoopPosition,
-            degree: .zero
+            degree: degree,
+            isDynamic: isDynamic,
+            alignment: alignment
         )
         hoops.append(hoop)
     }

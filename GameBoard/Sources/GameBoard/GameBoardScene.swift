@@ -35,9 +35,12 @@ class GameBoardScene: SKScene {
         super.sceneDidLoad()
         /// set up the appearance
         backgroundColor = .of(.ceruleanCrayola)
-        /// bind the trigger
+        /// bind the triggers
         viewModel.restartGame { [weak self] in
             self?.restartNewGame()
+        }
+        viewModel.handleAirBall { [weak self] in
+            self?.handleAirBall()
         }
     }
 }
@@ -78,6 +81,7 @@ extension GameBoardScene {
     }
 
     func prepareForNextRound(_ bucketNode: SKSpriteNode) {
+        viewModel.cancelTimer()
         ballNode?.physicsBody?.isDynamic = false
         let scaleUp = SKAction.scale(to: 1.5, duration: 0.1)
         let scaleDown = SKAction.scale(to: 1, duration: 0.2)
@@ -119,9 +123,12 @@ extension GameBoardScene {
 
     func handleMissing() {
         isBankShot = false
+        viewModel.cancelTimer()
         viewModel.calculateMissing()
         if viewModel.lives == 0 {
-            viewModel.gameState = .gameOver
+            withAnimation {
+                viewModel.gameState = .gameOver
+            }
         } else {
             ballNode?.physicsBody?.isDynamic = false
             ballNode?.position = viewModel.ball.location
@@ -129,6 +136,13 @@ extension GameBoardScene {
             ballNode?.run(.fadeIn(withDuration: 0.5))
             startAnimationOnBallNode()
             viewModel.gameState = .idle
+        }
+    }
+
+    func handleAirBall() {
+        ballNode?.run(.fadeOut(withDuration: 0.5))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.handleMissing()
         }
     }
 
@@ -245,6 +259,7 @@ extension GameBoardScene {
             let hoopNode = loadHoopNode(hoop)
             addChild(hoopNode)
             hoopNodes.append(hoopNode)
+            /// add normal animation
             let moveDown = SKAction.moveTo(y: hoop.location.y, duration: 0.5)
             let wait = SKAction.wait(forDuration: 0.1 * Double(index + 1))
             hoopNode.run(.sequence([wait, moveDown]))
@@ -257,10 +272,27 @@ extension GameBoardScene {
         hoopNode.name = GameBoardScene.hoopNodeId
         hoopNode.size = CGSize(width: 80, height: 80)
         hoopNode.position = CGPoint(x: hoop.location.x, y: frame.maxY + 100)
+        hoopNode.zRotation = hoop.degree
         let bucketTexture = SKTexture(image: .loadImage(.hoopTexture))
         let physicsBody = SKPhysicsBody(texture: bucketTexture, size: hoopNode.size)
         physicsBody.isDynamic = false
         hoopNode.physicsBody = physicsBody
+        if hoop.isDynamic {
+            var start = hoop.location.x
+            var end = start
+            switch hoop.alignment {
+            case .left:
+                end += 50
+            case .right:
+                end -= 50
+            case .center:
+                end += 25
+                start -= 25
+            }
+            let moveForward = SKAction.moveTo(x: end, duration: 1.5)
+            let moveBackward = SKAction.moveTo(x: start, duration: 1.5)
+            hoopNode.run(.repeatForever(.sequence([moveForward, moveBackward])))
+        }
         return hoopNode
     }
 }
@@ -338,6 +370,7 @@ extension GameBoardScene {
             let velocityX = (dragOrigin.x - location.x) / 1.65
             let velocityY = (dragOrigin.y - location.y) / 1.65
             shootBall(with: velocityX, and: velocityY)
+            viewModel.startTimer()
         }
     }
 }
