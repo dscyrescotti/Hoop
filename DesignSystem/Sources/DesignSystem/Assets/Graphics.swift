@@ -20,6 +20,7 @@ public enum Graphic: String {
     case basketball
 
     // MARK: - Hoop
+    case ballPassingHoop = "ball-passing-hoop"
     case hoop
     case hoopTexture = "hoop-texture"
 }
