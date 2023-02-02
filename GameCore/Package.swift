@@ -14,6 +14,10 @@ let package = Package(
         .library(
             name: "Model",
             targets: ["Model"]
+        ),
+        .library(
+            name: "Routing",
+            targets: ["Routing"]
         )
     ],
     dependencies: [],
@@ -28,9 +32,13 @@ let package = Package(
             name: "Model",
             dependencies: []
         ),
+        .target(
+            name: "Routing",
+            dependencies: []
+        ),
         .testTarget(
             name: "GameCoreTests",
-            dependencies: ["Core", "Model"]
+            dependencies: ["Core", "Model", "Routing"]
         ),
     ],
     swiftLanguageVersions: [.v5]
