@@ -4,14 +4,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "GameBoard",
-    platforms: [
-        .iOS(.v16)
-    ],
+    name: "GameLanding",
+    platforms: [.iOS(.v16)],
     products: [
         .library(
-            name: "GameBoard",
-            targets: ["GameBoard"]
+            name: "GameLanding",
+            targets: ["GameLanding"]
         ),
     ],
     dependencies: [
@@ -20,17 +18,16 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "GameBoard",
+            name: "GameLanding",
             dependencies: [
                 .product(name: "Core", package: "GameCore"),
                 .product(name: "Model", package: "GameCore"),
-                .product(name: "DesignSystem", package: "DesignSystem"),
+                .product(name: "DesignSystem", package: "DesignSystem")
             ]
         ),
         .testTarget(
-            name: "GameBoardTests",
-            dependencies: ["GameBoard"]
+            name: "GameLandingTests",
+            dependencies: ["GameLanding"]
         ),
-    ],
-    swiftLanguageVersions: [.v5]
+    ]
 )

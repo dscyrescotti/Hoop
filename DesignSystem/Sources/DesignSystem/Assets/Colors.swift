@@ -3,6 +3,7 @@ import SwiftUI
 public enum Colors: String {
     case ceruleanCrayola = "cerulean_crayola"
     case deepChampagne = "deep_champagne"
+    case mahogany
     case nonPhotoBlue = "non_photo_blue"
     case rust
 }

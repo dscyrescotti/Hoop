@@ -1,13 +1,13 @@
 import Core
 
-public struct GameBoardDependency {
+public struct GameLandingDependency {
     let gameManager: GameManager
 
     public init(gameManager: GameManager) {
         self.gameManager = gameManager
     }
 
-    var viewModel: GameBoardViewModel {
-        GameBoardViewModel(dependency: self)
+    var viewModel: GameLandingViewModel {
+        GameLandingViewModel(dependency: self)
     }
 }

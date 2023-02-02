@@ -3,7 +3,7 @@ import Model
 import Combine
 import SwiftUI
 
-public class GameBoardViewModel: ObservableObject {
+class GameBoardViewModel: ObservableObject {
     let dependency: GameBoardDependency
 
     @Published var gameState: GameState = .idle

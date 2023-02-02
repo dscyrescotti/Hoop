@@ -4,32 +4,35 @@
 import PackageDescription
 
 let package = Package(
-    name: "GameBoard",
-    platforms: [
-        .iOS(.v16)
-    ],
+    name: "App",
+    platforms: [.iOS(.v16)],
     products: [
         .library(
-            name: "GameBoard",
-            targets: ["GameBoard"]
+            name: "App",
+            targets: ["App"]
         ),
     ],
     dependencies: [
         .package(path: "../GameCore"),
+        .package(path: "../GameBoard"),
+        .package(path: "../GameLanding"),
         .package(path: "../DesignSystem")
     ],
     targets: [
         .target(
-            name: "GameBoard",
+            name: "App",
             dependencies: [
                 .product(name: "Core", package: "GameCore"),
                 .product(name: "Model", package: "GameCore"),
-                .product(name: "DesignSystem", package: "DesignSystem"),
+                .product(name: "Routing", package: "GameCore"),
+                .product(name: "GameBoard", package: "GameBoard"),
+                .product(name: "GameLanding", package: "GameLanding"),
+                .product(name: "DesignSystem", package: "DesignSystem")
             ]
         ),
         .testTarget(
-            name: "GameBoardTests",
-            dependencies: ["GameBoard"]
+            name: "AppTests",
+            dependencies: ["App"]
         ),
     ],
     swiftLanguageVersions: [.v5]

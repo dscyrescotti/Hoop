@@ -10,8 +10,7 @@
 		EC536504297BC4B30069741F /* HoopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC536503297BC4B30069741F /* HoopApp.swift */; };
 		EC536508297BC4B40069741F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC536507297BC4B40069741F /* Assets.xcassets */; };
 		EC53650B297BC4B40069741F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC53650A297BC4B40069741F /* Preview Assets.xcassets */; };
-		EC57224E298023FF00555864 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = EC57224D298023FF00555864 /* Core */; };
-		ECC12B18297E8C01002EFC13 /* GameBoard in Frameworks */ = {isa = PBXBuildFile; productRef = ECC12B17297E8C01002EFC13 /* GameBoard */; };
+		EC7261EA298C2BA800AE62A6 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = EC7261E9298C2BA800AE62A6 /* App */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,7 +20,9 @@
 		EC536507297BC4B40069741F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC53650A297BC4B40069741F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		EC57224C29800D7300555864 /* GameCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameCore; sourceTree = "<group>"; };
+		EC643FAE29896A9A0052085C /* GameLanding */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameLanding; sourceTree = "<group>"; };
 		EC74AD08297E892F008B8DB7 /* GameBoard */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameBoard; sourceTree = "<group>"; };
+		ECF45098298C1B8C00CA85A2 /* App */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = App; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,8 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECC12B18297E8C01002EFC13 /* GameBoard in Frameworks */,
-				EC57224E298023FF00555864 /* Core in Frameworks */,
+				EC7261EA298C2BA800AE62A6 /* App in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +79,8 @@
 				EC74AD08297E892F008B8DB7 /* GameBoard */,
 				EC38061A297EB0D100BA1F0B /* DesignSystem */,
 				EC57224C29800D7300555864 /* GameCore */,
+				EC643FAE29896A9A0052085C /* GameLanding */,
+				ECF45098298C1B8C00CA85A2 /* App */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -123,8 +125,7 @@
 			);
 			name = Hoop;
 			packageProductDependencies = (
-				ECC12B17297E8C01002EFC13 /* GameBoard */,
-				EC57224D298023FF00555864 /* Core */,
+				EC7261E9298C2BA800AE62A6 /* App */,
 			);
 			productName = Hoop;
 			productReference = EC536500297BC4B30069741F /* Hoop.app */;
@@ -389,13 +390,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		EC57224D298023FF00555864 /* Core */ = {
+		EC7261E9298C2BA800AE62A6 /* App */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Core;
-		};
-		ECC12B17297E8C01002EFC13 /* GameBoard */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = GameBoard;
+			productName = App;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
