@@ -6,7 +6,8 @@ public struct GameBoardView: View {
 
     private var gameBoardScene: GameBoardScene
 
-    public init(_ viewModel: GameBoardViewModel) {
+    public init(dependency: GameBoardDependency) {
+        let viewModel = dependency.viewModel
         self._viewModel = StateObject(wrappedValue: viewModel)
         self.gameBoardScene = GameBoardScene(viewModel)
     }

@@ -12,11 +12,23 @@ let package = Package(
             targets: ["App"]
         ),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(path: "../GameCore"),
+        .package(path: "../GameBoard"),
+        .package(path: "../GameLanding"),
+        .package(path: "../DesignSystem")
+    ],
     targets: [
         .target(
             name: "App",
-            dependencies: []
+            dependencies: [
+                .product(name: "Core", package: "GameCore"),
+                .product(name: "Model", package: "GameCore"),
+                .product(name: "Routing", package: "GameCore"),
+                .product(name: "GameBoard", package: "GameBoard"),
+                .product(name: "GameLanding", package: "GameLanding"),
+                .product(name: "DesignSystem", package: "DesignSystem")
+            ]
         ),
         .testTarget(
             name: "AppTests",

@@ -1,6 +1,6 @@
 import Combine
 
-public class GameLandingViewModel: ObservableObject {
+class GameLandingViewModel: ObservableObject {
     let dependency: GameLandingDependency
 
     @Published var isAnimateTitle: Bool = false
