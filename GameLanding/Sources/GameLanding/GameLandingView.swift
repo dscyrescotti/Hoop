@@ -4,8 +4,8 @@ import DesignSystem
 public struct GameLandingView: View {
     @StateObject var viewModel: GameLandingViewModel
 
-    public init(_ viewModel: GameLandingViewModel) {
-        self._viewModel = StateObject(wrappedValue: viewModel)
+    public init(dependency: GameLandingDependency) {
+        self._viewModel = StateObject(wrappedValue: dependency.viewModel)
     }
 
     public var body: some View {

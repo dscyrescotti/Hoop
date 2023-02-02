@@ -6,4 +6,8 @@ public struct GameBoardDependency {
     public init(gameManager: GameManager) {
         self.gameManager = gameManager
     }
+
+    var viewModel: GameBoardViewModel {
+        GameBoardViewModel(dependency: self)
+    }
 }
