@@ -2,6 +2,7 @@ import Core
 import GameBoard
 import GameScore
 import GameLanding
+import DesignSystem
 
 public struct Environment {
     let gameManager: GameManager
@@ -13,6 +14,7 @@ public struct Environment {
 
 extension Environment {
     static var live: Environment = {
+        DesignSystem.load()
         let gameManager = GameManager()
         return Environment(gameManager: gameManager)
     }()

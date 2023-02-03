@@ -52,10 +52,13 @@ public struct GameBoardView: View {
                             .resizable()
                             .frame(width: 25, height: 25)
                     }
-                    Text("x\(max(viewModel.winningSteak, 1))")
+                    Text("x")
+                        .font(.of(.headline))
+                    +
+                    Text("\(max(viewModel.winningSteak, 1))")
                 }
             }
-            .font(.title.bold())
+            .font(.of(.title))
             .multilineTextAlignment(.trailing)
             .foregroundColor(.of(.rust))
             .padding(.horizontal, 20)

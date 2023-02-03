@@ -39,14 +39,14 @@ public struct GameLandingView: View {
     private func header(proxy: GeometryProxy) -> some View {
         VStack(spacing: 20) {
             Text("Hoop")
-                .font(.system(size: 60, weight: .bold))
+                .font(.of(.heading))
                 .foregroundColor(.of(.rust))
                 .scaleEffect(x: viewModel.isAnimateTitle ? 1 : 1.5, y: viewModel.isAnimateTitle ? 1 : 1.5)
                 .animation(.easeOut(duration: 1.6).repeatForever(), value: viewModel.isAnimateTitle)
                 .rotationEffect(.degrees(viewModel.isAnimateTitle ? 5 : -5))
                 .animation(.easeIn(duration: 0.8).repeatForever(), value: viewModel.isAnimateTitle)
             Text("Shoot Your Shot 🏀💨")
-                .font(.title.bold())
+                .font(.of(.headline))
                 .foregroundColor(.of(.mahogany))
                 .offset(x: viewModel.isAnimateTitle ? -proxy.size.width * 0.8 : proxy.size.width * 0.8)
                 .animation(.linear(duration: 5).repeatForever(autoreverses: false), value: viewModel.isAnimateTitle)

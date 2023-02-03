@@ -1,6 +1,16 @@
+import SwiftUI
 import Foundation
 
-class DesignSystem { }
+public class DesignSystem {
+    public static func load() {
+        ["ttf", "otf"].flatMap {
+            Bundle.designSystem.urls(forResourcesWithExtension: $0, subdirectory: nil) ?? []
+        }
+        .forEach { url in
+            CTFontManagerRegisterFontsForURL(url as CFURL, .process, nil)
+        }
+    }
+}
 
 public extension Bundle {
     static var designSystem: Bundle = {
