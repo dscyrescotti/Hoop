@@ -3,23 +3,38 @@ import SwiftUI
 @propertyWrapper
 public struct Coordinator: DynamicProperty {
     @Environment(\.dismiss) var dismissRoute
-    @State var route: Route?
+    @StateObject var rootSwitcher: RootSwitcher = .shared
+    @State var fullScreenRoute: Route?
 
-    public var wrappedValue: Route? {
-        route
-    }
+    public var wrappedValue: Route? { nil }
 
     public var projectedValue: Coordinator { self }
 
-    public init(route: Route? = nil) {
-        self.route = route
-    }
+    public init() { }
 
-    public func present(_ route: Route) {
-        self.route = route
+    public func fullScreen(_ route: Route) {
+        self.fullScreenRoute = route
     }
 
     public func dismiss() {
         dismissRoute()
     }
+
+    public func switchScreen(_ route: Route, animated: Bool = true) {
+        if animated {
+            withAnimation {
+                rootSwitcher.switchRoute = route
+            }
+        } else {
+            rootSwitcher.switchRoute = route
+        }
+    }
+}
+
+class RootSwitcher: ObservableObject {
+    @Published var switchRoute: Route?
+
+    private init() { }
+
+    static let shared = RootSwitcher()
 }

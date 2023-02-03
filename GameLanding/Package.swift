@@ -22,6 +22,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Core", package: "GameCore"),
                 .product(name: "Model", package: "GameCore"),
+                .product(name: "Routing", package: "GameCore"),
                 .product(name: "DesignSystem", package: "DesignSystem")
             ]
         ),

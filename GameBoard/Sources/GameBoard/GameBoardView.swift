@@ -1,7 +1,9 @@
+import Routing
 import SwiftUI
 import SpriteKit
 
 public struct GameBoardView: View {
+    @Coordinator var coodinator
     @StateObject var viewModel: GameBoardViewModel
 
     private var gameBoardScene: GameBoardScene
@@ -75,7 +77,7 @@ public struct GameBoardView: View {
                 }
             }
             Button {
-
+                $coodinator.switchScreen(.gameLanding)
             } label: {
                 Label {
                     Text("Return Home")
