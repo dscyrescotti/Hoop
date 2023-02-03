@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct SwitchView: View {
+public struct RootView: View {
     let coordinator: Coordinator
 
     public init(_ coordinator: Coordinator) {
