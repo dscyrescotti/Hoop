@@ -86,7 +86,7 @@ public struct GameBoardView: View {
                 }
             }
         }
-        .buttonStyle(.springButtonStyle)
+        .buttonStyle(.primary)
         .padding(24)
         .background(Color.of(.deepChampagne))
         .cornerRadius(15)

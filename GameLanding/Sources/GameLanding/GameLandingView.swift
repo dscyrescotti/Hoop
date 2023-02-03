@@ -74,6 +74,6 @@ public struct GameLandingView: View {
                 }
             }
         }
-        .buttonStyle(.springButtonStyle)
+        .buttonStyle(.primary)
     }
 }

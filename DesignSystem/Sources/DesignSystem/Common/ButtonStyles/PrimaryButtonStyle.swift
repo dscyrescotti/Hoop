@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct SpringButtonStyle: ButtonStyle {
+public struct PrimaryButtonStyle: ButtonStyle {
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.headline.bold())
@@ -13,8 +13,8 @@ public struct SpringButtonStyle: ButtonStyle {
     }
 }
 
-public extension ButtonStyle where Self == SpringButtonStyle {
-    static var springButtonStyle: SpringButtonStyle {
-        SpringButtonStyle()
+public extension ButtonStyle where Self == PrimaryButtonStyle {
+    static var primary: PrimaryButtonStyle {
+        PrimaryButtonStyle()
     }
 }
