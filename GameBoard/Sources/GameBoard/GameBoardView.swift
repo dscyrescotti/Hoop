@@ -68,8 +68,8 @@ public struct GameBoardView: View {
     private var gameOverAlert: some View {
         VStack(spacing: 15) {
             Text("Game Over!")
-                .font(.title.bold())
-                .foregroundColor(.black)
+                .font(.of(.largeTitle))
+                .foregroundColor(.of(.eerieBlack))
             Button {
                 viewModel.restartTrigger.send()
             } label: {

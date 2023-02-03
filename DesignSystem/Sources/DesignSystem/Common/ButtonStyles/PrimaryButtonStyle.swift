@@ -8,7 +8,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
             .padding(15)
             .background(Color.of(.rust))
             .cornerRadius(15)
-            .foregroundColor(.white)
+            .foregroundColor(.of(.white))
             .scaleEffect(configuration.isPressed ? 0.9 : 1)
     }
 }

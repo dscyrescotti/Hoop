@@ -23,6 +23,7 @@ public enum FontStyle {
 
     // MARK: - Title
     case title
+    case largeTitle
 
     var textStyle: (CGFloat, FontWeight) {
         switch self {
@@ -34,6 +35,8 @@ public enum FontStyle {
             return (20, .medium)
         case .title:
             return (28, .semiBold)
+        case .largeTitle:
+            return (35, .bold)
         }
     }
 }
