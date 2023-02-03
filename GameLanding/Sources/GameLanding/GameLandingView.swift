@@ -3,6 +3,7 @@ import SwiftUI
 import DesignSystem
 
 public struct GameLandingView: View {
+    @Coordinator var coordinator
     @StateObject var viewModel: GameLandingViewModel
 
     public init(dependency: GameLandingDependency) {
@@ -12,12 +13,10 @@ public struct GameLandingView: View {
     public var body: some View {
         GeometryReader { proxy in
             VStack {
-                Image.loadImage(.ballPassingHoop)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 200, height: 170)
+                headingImage
                 header(proxy: proxy)
                 Spacer()
+                buttons
                 Spacer()
             }
             .padding(24)
@@ -27,6 +26,13 @@ public struct GameLandingView: View {
         .onAppear {
             viewModel.startAnimation()
         }
+    }
+
+    private var headingImage: some View {
+        Image.loadImage(.ballPassingHoop)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 200, height: 170)
     }
 
     private func header(proxy: GeometryProxy) -> some View {
@@ -44,5 +50,20 @@ public struct GameLandingView: View {
                 .offset(x: viewModel.isAnimateTitle ? -proxy.size.width * 0.8 : proxy.size.width * 0.8)
                 .animation(.linear(duration: 5).repeatForever(autoreverses: false), value: viewModel.isAnimateTitle)
         }
+    }
+
+    private var buttons: some View {
+        VStack(spacing: 15) {
+            Button {
+                $coordinator.switchScreen(.gameBoard)
+            } label: {
+                Label {
+                    Text("New Game")
+                } icon: {
+                    Image.loadImage(.gamecontrollerFill)
+                }
+            }
+        }
+        .buttonStyle(.springButtonStyle)
     }
 }

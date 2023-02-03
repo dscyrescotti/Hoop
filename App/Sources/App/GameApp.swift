@@ -10,7 +10,7 @@ public struct GameApp: View {
     public var body: some View {
         RootView($coordinator)
             .onAppear {
-                $coordinator.switchScreen(.gameBoard)
+                $coordinator.switchScreen(.gameLanding)
             }
     }
 }

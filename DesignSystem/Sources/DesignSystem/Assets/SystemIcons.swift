@@ -8,6 +8,7 @@ public extension Image {
 
 public enum Icons: String {
     case arrowCounterclockwise = "arrow.counterclockwise"
+    case gamecontrollerFill = "gamecontroller.fill"
     case heartFill = "heart.fill"
     case house
 }
