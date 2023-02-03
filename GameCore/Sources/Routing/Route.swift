@@ -3,6 +3,7 @@ import Foundation
 
 public enum Route: Equatable, Identifiable, Hashable {
     case gameBoard
+    case gameScore
     case gameLanding
 
     public var id: Int {

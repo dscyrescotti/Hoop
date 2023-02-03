@@ -22,6 +22,7 @@
 		EC57224C29800D7300555864 /* GameCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameCore; sourceTree = "<group>"; };
 		EC643FAE29896A9A0052085C /* GameLanding */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameLanding; sourceTree = "<group>"; };
 		EC74AD08297E892F008B8DB7 /* GameBoard */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameBoard; sourceTree = "<group>"; };
+		ECC4F3D7298CC3AC00FD2E2E /* GameScore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameScore; sourceTree = "<group>"; };
 		ECF45098298C1B8C00CA85A2 /* App */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = App; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,11 +77,12 @@
 		EC74AD07297E892F008B8DB7 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				EC74AD08297E892F008B8DB7 /* GameBoard */,
+				ECF45098298C1B8C00CA85A2 /* App */,
 				EC38061A297EB0D100BA1F0B /* DesignSystem */,
+				EC74AD08297E892F008B8DB7 /* GameBoard */,
 				EC57224C29800D7300555864 /* GameCore */,
 				EC643FAE29896A9A0052085C /* GameLanding */,
-				ECF45098298C1B8C00CA85A2 /* App */,
+				ECC4F3D7298CC3AC00FD2E2E /* GameScore */,
 			);
 			name = Packages;
 			sourceTree = "<group>";

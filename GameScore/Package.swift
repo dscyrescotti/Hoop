@@ -4,14 +4,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "GameBoard",
-    platforms: [
-        .iOS(.v16)
-    ],
+    name: "GameScore",
+    platforms: [.iOS(.v16)],
     products: [
         .library(
-            name: "GameBoard",
-            targets: ["GameBoard"]
+            name: "GameScore",
+            targets: ["GameScore"]
         ),
     ],
     dependencies: [
@@ -20,7 +18,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "GameBoard",
+            name: "GameScore",
             dependencies: [
                 .product(name: "Core", package: "GameCore"),
                 .product(name: "Model", package: "GameCore"),
@@ -29,8 +27,8 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "GameBoardTests",
-            dependencies: ["GameBoard"]
+            name: "GameScoreTests",
+            dependencies: ["GameScore"]
         ),
     ],
     swiftLanguageVersions: [.v5]

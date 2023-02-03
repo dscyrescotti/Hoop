@@ -1,6 +1,7 @@
 import Routing
 import SwiftUI
 import GameBoard
+import GameScore
 import GameLanding
 
 extension Route: Factory {
@@ -9,6 +10,8 @@ extension Route: Factory {
         switch self {
         case .gameBoard:
             GameBoardView(dependency: environment.gameBoardDependency)
+        case .gameScore:
+            GameScoreView(dependency: environment.gameScoreDependency)
         case .gameLanding:
             GameLandingView(dependency: environment.gameLandingDependency)
         }

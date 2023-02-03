@@ -1,5 +1,6 @@
 import Core
 import GameBoard
+import GameScore
 import GameLanding
 
 public struct Environment {
@@ -20,6 +21,10 @@ extension Environment {
 extension Environment {
     var gameBoardDependency: GameBoardDependency {
         GameBoardDependency(gameManager: gameManager)
+    }
+    
+    var gameScoreDependency: GameScoreDependency {
+        GameScoreDependency(gameManager: gameManager)
     }
 
     var gameLandingDependency: GameLandingDependency {

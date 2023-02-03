@@ -26,6 +26,7 @@ public struct GameLandingView: View {
         .onAppear {
             viewModel.startAnimation()
         }
+        .coordinated($coordinator)
     }
 
     private var headingImage: some View {
@@ -61,6 +62,15 @@ public struct GameLandingView: View {
                     Text("New Game")
                 } icon: {
                     Image.loadImage(.gamecontrollerFill)
+                }
+            }
+            Button {
+                $coordinator.fullScreen(.gameScore)
+            } label: {
+                Label {
+                    Text("Top Scores")
+                } icon: {
+                    Image.loadImage(.alignVerticalBottomFill)
                 }
             }
         }

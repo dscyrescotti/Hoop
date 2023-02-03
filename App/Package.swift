@@ -15,6 +15,7 @@ let package = Package(
     dependencies: [
         .package(path: "../GameCore"),
         .package(path: "../GameBoard"),
+        .package(path: "../GameScore"),
         .package(path: "../GameLanding"),
         .package(path: "../DesignSystem")
     ],
@@ -26,6 +27,7 @@ let package = Package(
                 .product(name: "Model", package: "GameCore"),
                 .product(name: "Routing", package: "GameCore"),
                 .product(name: "GameBoard", package: "GameBoard"),
+                .product(name: "GameScore", package: "GameScore"),
                 .product(name: "GameLanding", package: "GameLanding"),
                 .product(name: "DesignSystem", package: "DesignSystem")
             ]
