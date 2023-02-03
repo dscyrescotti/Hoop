@@ -204,6 +204,7 @@ extension GameBoardScene {
         /// remove animation from the ball and reset the original scale
         ballNode?.removeAllActions()
         ballNode?.setScale(1)
+        ballNode?.alpha = 1
     }
 
     /// shoot the ball with impulse force
