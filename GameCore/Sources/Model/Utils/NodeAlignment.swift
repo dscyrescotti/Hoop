@@ -1,6 +1,6 @@
 import Foundation
 
-public enum NodeAlignment: CaseIterable {
+public enum NodeAlignment: Int, CaseIterable {
     case left
     case center
     case right

@@ -1,6 +1,7 @@
 import Model
 import SpriteKit
 import Foundation
+import Persistency
 
 public class GameManager {
     public var hoops: Hoops = []
@@ -12,7 +13,10 @@ public class GameManager {
 
     public var baseLine: CGFloat = .zero
 
-    public init() { }
+    public init() {
+        let persistency = PersistencyService()
+        persistency.testSchema()
+    }
 }
 
 // MARK: - GAME LOADING

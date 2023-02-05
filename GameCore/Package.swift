@@ -18,6 +18,10 @@ let package = Package(
         .library(
             name: "Routing",
             targets: ["Routing"]
+        ),
+        .library(
+            name: "Persistency",
+            targets: ["Persistency"]
         )
     ],
     dependencies: [],
@@ -25,7 +29,8 @@ let package = Package(
         .target(
             name: "Core",
             dependencies: [
-                .target(name: "Model")
+                .target(name: "Model"),
+                .target(name: "Persistency")
             ]
         ),
         .target(
@@ -35,6 +40,13 @@ let package = Package(
         .target(
             name: "Routing",
             dependencies: []
+        ),
+        .target(
+            name: "Persistency",
+            dependencies: [
+                .target(name: "Model")
+            ],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "GameCoreTests",

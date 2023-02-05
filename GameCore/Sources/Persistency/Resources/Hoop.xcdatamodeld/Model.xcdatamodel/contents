@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="21G115" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BallObject" representedClassName="Persistency.BallObject" syncable="YES">
+        <attribute name="xPoint" attributeType="Double" usesScalarValueType="YES"/>
+        <attribute name="yPoint" attributeType="Double" usesScalarValueType="YES"/>
+        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GameObject" inverseName="ball" inverseEntity="GameObject"/>
+    </entity>
+    <entity name="GameObject" representedClassName="Persistency.GameObject" syncable="YES">
+        <attribute name="lives" optional="YES" attributeType="Integer 64" defaultValueString="3" usesScalarValueType="YES"/>
+        <attribute name="nodeAlignment" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="points" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="winningSteak" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="ball" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BallObject" inverseName="game" inverseEntity="BallObject"/>
+        <relationship name="hoops" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="HoopObject" inverseName="game" inverseEntity="HoopObject"/>
+    </entity>
+    <entity name="HoopObject" representedClassName="Persistency.HoopObject" syncable="YES">
+        <attribute name="degree" attributeType="Double" usesScalarValueType="YES"/>
+        <attribute name="isDynamic" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="nodeAlignment" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="xPoint" attributeType="Double" usesScalarValueType="YES"/>
+        <attribute name="yPoint" attributeType="Double" usesScalarValueType="YES"/>
+        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GameObject" inverseName="hoops" inverseEntity="GameObject"/>
+    </entity>
+</model>
