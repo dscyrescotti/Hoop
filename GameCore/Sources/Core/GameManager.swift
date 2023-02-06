@@ -13,10 +13,7 @@ public class GameManager {
 
     public var baseLine: CGFloat = .zero
 
-    public init() {
-        let persistency = PersistencyService()
-        persistency.testSchema()
-    }
+    public init() { }
 }
 
 // MARK: - GAME LOADING

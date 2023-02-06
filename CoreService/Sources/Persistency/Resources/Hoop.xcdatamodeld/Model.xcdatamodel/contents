@@ -10,7 +10,7 @@
         <attribute name="nodeAlignment" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="points" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="winningSteak" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="ball" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BallObject" inverseName="game" inverseEntity="BallObject"/>
+        <relationship name="ball" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="BallObject" inverseName="game" inverseEntity="BallObject"/>
         <relationship name="hoops" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="HoopObject" inverseName="game" inverseEntity="HoopObject"/>
     </entity>
     <entity name="HoopObject" representedClassName="Persistency.HoopObject" syncable="YES">

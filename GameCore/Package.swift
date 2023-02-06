@@ -18,19 +18,17 @@ let package = Package(
         .library(
             name: "Routing",
             targets: ["Routing"]
-        ),
-        .library(
-            name: "Persistency",
-            targets: ["Persistency"]
         )
     ],
-    dependencies: [],
+    dependencies: [
+        .package(path: "../CoreService")
+    ],
     targets: [
         .target(
             name: "Core",
             dependencies: [
                 .target(name: "Model"),
-                .target(name: "Persistency")
+                .product(name: "Persistency", package: "CoreService")
             ]
         ),
         .target(
@@ -40,13 +38,6 @@ let package = Package(
         .target(
             name: "Routing",
             dependencies: []
-        ),
-        .target(
-            name: "Persistency",
-            dependencies: [
-                .target(name: "Model")
-            ],
-            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "GameCoreTests",

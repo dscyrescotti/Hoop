@@ -11,9 +11,4 @@ public class GameObject: NSManagedObject {
     @NSManaged public var lives: Int
     @NSManaged public var ball: BallObject?
     @NSManaged public var hoops: NSOrderedSet?
-
-    var alignment: NodeAlignment {
-        get { NodeAlignment(rawValue: nodeAlignment) ?? .center }
-        set { nodeAlignment = newValue.rawValue }
-    }
 }

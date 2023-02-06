@@ -11,9 +11,4 @@ public class HoopObject: NSManagedObject {
     @NSManaged public var isDynamic: Bool
     @NSManaged internal var nodeAlignment: Int
     @NSManaged public var game: GameObject?
-
-    var alignment: NodeAlignment {
-        get { NodeAlignment(rawValue: nodeAlignment) ?? .center }
-        set { nodeAlignment = newValue.rawValue }
-    }
 }

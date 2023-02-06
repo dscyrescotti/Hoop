@@ -23,6 +23,7 @@
 		EC643FAE29896A9A0052085C /* GameLanding */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameLanding; sourceTree = "<group>"; };
 		EC74AD08297E892F008B8DB7 /* GameBoard */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameBoard; sourceTree = "<group>"; };
 		ECC4F3D7298CC3AC00FD2E2E /* GameScore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameScore; sourceTree = "<group>"; };
+		ECCF6776299169D3004DC553 /* CoreService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CoreService; sourceTree = "<group>"; };
 		ECF45098298C1B8C00CA85A2 /* App */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = App; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				ECF45098298C1B8C00CA85A2 /* App */,
+				ECCF6776299169D3004DC553 /* CoreService */,
 				EC38061A297EB0D100BA1F0B /* DesignSystem */,
 				EC74AD08297E892F008B8DB7 /* GameBoard */,
 				EC57224C29800D7300555864 /* GameCore */,
