@@ -1,4 +1,3 @@
-import Model
 import CoreData
 
 @objc(GameObject)

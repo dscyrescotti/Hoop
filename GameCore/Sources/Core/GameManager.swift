@@ -4,6 +4,10 @@ import Foundation
 import Persistency
 
 public class GameManager {
+    internal var persistency: PersistencyService
+
+    internal var gameObject: GameObject?
+
     public var hoops: Hoops = []
     public var ball: Ball = Ball()
     public var alignment: NodeAlignment = .random()
@@ -13,7 +17,9 @@ public class GameManager {
 
     public var baseLine: CGFloat = .zero
 
-    public init() { }
+    public init(persistency: PersistencyService) {
+        self.persistency = persistency
+    }
 }
 
 // MARK: - GAME LOADING
@@ -28,6 +34,7 @@ extension GameManager {
         for index in 1...3 {
             seedHoop(on: frame, for: index)
         }
+        self.gameObject = loadNewGameObject()
     }
 
     /// prepare for next shot

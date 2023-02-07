@@ -1,4 +1,3 @@
-import Model
 import CoreData
 
 @objc(HoopObject)
@@ -9,6 +8,6 @@ public class HoopObject: NSManagedObject {
     @NSManaged public var yPoint: CGFloat
     @NSManaged public var degree: Double
     @NSManaged public var isDynamic: Bool
-    @NSManaged internal var nodeAlignment: Int
+    @NSManaged public var nodeAlignment: Int
     @NSManaged public var game: GameObject?
 }

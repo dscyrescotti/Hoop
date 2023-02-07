@@ -2,21 +2,31 @@ import Core
 import GameBoard
 import GameScore
 import GameLanding
+import Persistency
 import DesignSystem
 
 public struct Environment {
     let gameManager: GameManager
+    let persistency: PersistencyService
 
-    init(gameManager: GameManager) {
+    init(
+        gameManager: GameManager,
+        persistency: PersistencyService
+    ) {
         self.gameManager = gameManager
+        self.persistency = persistency
     }
 }
 
 extension Environment {
     static var live: Environment = {
         DesignSystem.load()
-        let gameManager = GameManager()
-        return Environment(gameManager: gameManager)
+        let persistency = PersistencyService()
+        let gameManager = GameManager(persistency: persistency)
+        return Environment(
+            gameManager: gameManager,
+            persistency: persistency
+        )
     }()
 }
 

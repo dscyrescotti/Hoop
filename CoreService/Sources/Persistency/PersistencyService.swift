@@ -54,3 +54,19 @@ public class PersistencyService {
     }()
 }
 
+// MARK: - Methods
+public extension PersistencyService {
+    func createObject<T: NSManagedObject>(for type: T.Type) -> T {
+        return T(context: managedObjectContext)
+    }
+
+    func saveContext() {
+        guard managedObjectContext.hasChanges else { return }
+        do {
+            try managedObjectContext.save()
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+    }
+}
+
