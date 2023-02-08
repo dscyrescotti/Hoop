@@ -9,7 +9,10 @@ public extension Image {
 public enum Icons: String {
     case house
     case xmark
+    case playFill = "play.fill"
     case heartFill = "heart.fill"
+    case pauseFill = "pause.fill"
+    case trashFill = "trash.fill"
     case playCircleFill = "play.circle.fill"
     case gamecontrollerFill = "gamecontroller.fill"
     case arrowCounterclockwise = "arrow.counterclockwise"

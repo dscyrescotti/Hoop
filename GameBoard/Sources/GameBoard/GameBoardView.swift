@@ -33,9 +33,21 @@ public struct GameBoardView: View {
                 gameOverAlert
                     .transition(.scale)
             }
+            if viewModel.gameState == .pause {
+                resumeAlert
+                    .transition(.scale)
+            }
         }
         .overlay(alignment: .top) {
             HStack(alignment: .top) {
+                Button {
+                    viewModel.pauseGame()
+                } label: {
+                    Image.loadImage(viewModel.gameState == .pause ? .playFill : .pauseFill)
+                }
+                .disabled(viewModel.gameState != .idle)
+                .foregroundColor(.of(.mahogany))
+                .font(.of(.headline3))
                 Spacer()
                 VStack(alignment: .trailing, spacing: 5) {
                     HStack {
@@ -85,6 +97,47 @@ public struct GameBoardView: View {
                     Text("Return Home")
                 } icon: {
                     Image.loadImage(.house)
+                }
+            }
+        }
+        .buttonStyle(.primary)
+        .padding(24)
+        .background(Color.of(.deepChampagne))
+        .cornerRadius(15)
+        .padding(.horizontal, 24)
+    }
+
+    private var resumeAlert: some View {
+        VStack(spacing: 15) {
+            Text("Game Paused!")
+                .font(.of(.largeTitle))
+                .foregroundColor(.of(.eerieBlack))
+            Button {
+                viewModel.resumeGame()
+            } label: {
+                Label {
+                    Text("Resume")
+                } icon: {
+                    Image.loadImage(.playFill)
+                }
+            }
+            Button {
+                $coodinator.switchScreen(.gameLanding)
+            } label: {
+                Label {
+                    Text("Return Home")
+                } icon: {
+                    Image.loadImage(.house)
+                }
+            }
+            Button {
+                viewModel.cleanUpGameBoard()
+                $coodinator.switchScreen(.gameLanding)
+            } label: {
+                Label {
+                    Text("Abort Game")
+                } icon: {
+                    Image.loadImage(.trashFill)
                 }
             }
         }

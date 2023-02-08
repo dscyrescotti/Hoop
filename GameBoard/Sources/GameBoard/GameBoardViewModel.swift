@@ -101,4 +101,16 @@ class GameBoardViewModel: ObservableObject {
     func cleanUpGameBoard() {
         dependency.gameManager.deleteGameObject()
     }
+
+    func pauseGame() {
+        withAnimation {
+            gameState = .pause
+        }
+    }
+
+    func resumeGame() {
+        withAnimation {
+            gameState = .idle
+        }
+    }
 }

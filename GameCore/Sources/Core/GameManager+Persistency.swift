@@ -94,7 +94,7 @@ extension GameManager {
 
             /// update list
             var scoreObjects = loadScoreObjects()
-            while scoreObjects.count > 20 {
+            while scoreObjects.count > 15 {
                 let object = scoreObjects.removeLast()
                 persistency.removeObject(object)
             }

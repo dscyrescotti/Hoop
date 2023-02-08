@@ -6,4 +6,5 @@ enum GameState {
     case miss
     case gameOver
     case airBall
+    case pause
 }
