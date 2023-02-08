@@ -27,9 +27,9 @@ class GameBoardViewModel: ObservableObject {
 
     func loadGame(on frame: CGRect) {
         dependency.gameManager.loadNewGame(on: frame)
-        points = .zero
-        winningSteak = .zero
-        lives = 3
+        points = dependency.gameManager.points
+        winningSteak = dependency.gameManager.winningSteak
+        lives = dependency.gameManager.lives
     }
 
     func prepareForNextRound(on frame: CGRect, with location: CGPoint) {

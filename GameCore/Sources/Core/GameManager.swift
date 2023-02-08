@@ -26,18 +26,31 @@ public class GameManager {
 extension GameManager {
     /// load the new game
     public func loadNewGame(on frame: CGRect) {
-        points = 0
-        winningSteak = 0
-        lives = 3
-        seedBall(on: frame)
-        hoops.removeAll()
-        for index in 1...3 {
-            seedHoop(on: frame, for: index)
+        if let existingGameObject = loadExistingGameObject() {
+            points = existingGameObject.points
+            winningSteak = existingGameObject.winningSteak
+            lives = existingGameObject.lives
+            alignment = NodeAlignment(rawValue: existingGameObject.nodeAlignment) ?? .center
+            baseLine = existingGameObject.ball?.yPoint ?? 0
+            ball = existingGameObject.ball?.model ?? Ball()
+            hoops = existingGameObject.hoops?.array
+                .compactMap { $0 as? HoopObject }
+                .map { $0.model } ?? []
+            self.gameObject = existingGameObject
+        } else {
+            points = 0
+            winningSteak = 0
+            lives = 3
+            seedBall(on: frame)
+            hoops.removeAll()
+            for index in 1...3 {
+                seedHoop(on: frame, for: index)
+            }
+            self.gameObject = loadNewGameObject()
         }
-        self.gameObject = loadNewGameObject()
     }
 
-    /// prepare for next shot
+    /// prepare for next ball
     public func prepareForNextRound(on frame: CGRect, with location: CGPoint) {
         ball.location = location
         ball.location.y = baseLine
@@ -47,6 +60,7 @@ extension GameManager {
             hoops[index].location.y -= diff
         }
         seedHoop(on: frame)
+        updateGameObject()
     }
 
     /// calculate points after shot
@@ -63,12 +77,14 @@ extension GameManager {
         }
         winningSteak += 1
         self.points += points
+        updateGamePoints()
     }
 
     /// handle ball missing
     public func calculateMissing() {
         winningSteak = .zero
         lives -= 1
+        updateGameLives()
     }
 
     /// seed ball on frame arbitrarily

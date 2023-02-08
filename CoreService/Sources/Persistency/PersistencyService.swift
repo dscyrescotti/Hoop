@@ -56,6 +56,17 @@ public class PersistencyService {
 
 // MARK: - Methods
 public extension PersistencyService {
+    func loadGameObject() -> GameObject? {
+        let fetchRequest = NSFetchRequest<GameObject>(entityName: GameObject.entityName)
+        do {
+            let gameObject = try managedObjectContext.fetch(fetchRequest).first
+            return gameObject
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+        return nil
+    }
+
     func createObject<T: NSManagedObject>(for type: T.Type) -> T {
         return T(context: managedObjectContext)
     }
@@ -64,6 +75,24 @@ public extension PersistencyService {
         guard managedObjectContext.hasChanges else { return }
         do {
             try managedObjectContext.save()
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+    }
+
+    func removeObject(_ object: NSManagedObject) {
+        managedObjectContext.delete(object)
+    }
+
+    func printOut() {
+        let ballRequest = NSFetchRequest<BallObject>(entityName: BallObject.entityName)
+        let hoopRequest = NSFetchRequest<HoopObject>(entityName: HoopObject.entityName)
+        let gameRequest = NSFetchRequest<GameObject>(entityName: GameObject.entityName)
+        do {
+            let balls = try managedObjectContext.fetch(ballRequest)
+            let hoops = try managedObjectContext.fetch(hoopRequest)
+            let games = try managedObjectContext.fetch(gameRequest)
+            print(balls, hoops, games)
         } catch {
             debugPrint(error.localizedDescription)
         }

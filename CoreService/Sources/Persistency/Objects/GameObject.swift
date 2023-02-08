@@ -4,7 +4,7 @@ import CoreData
 public class GameObject: NSManagedObject {
     static public let entityName = String(describing: GameObject.self)
 
-    @NSManaged internal var nodeAlignment: Int
+    @NSManaged public var nodeAlignment: Int
     @NSManaged public var points: Int
     @NSManaged public var winningSteak: Int
     @NSManaged public var lives: Int
