@@ -1,3 +1,4 @@
+import CoreData
 import Foundation
 import Persistency
 
@@ -80,5 +81,13 @@ extension GameManager {
         gameObject?.winningSteak = winningSteak
 
         persistency.saveContext()
+    }
+
+    public func deleteGameObject() {
+        if let gameObject {
+            self.gameObject = nil
+            persistency.removeObject(gameObject)
+            persistency.saveContext()
+        }
     }
 }

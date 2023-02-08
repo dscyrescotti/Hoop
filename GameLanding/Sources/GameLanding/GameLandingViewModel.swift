@@ -5,6 +5,10 @@ class GameLandingViewModel: ObservableObject {
 
     @Published var isAnimateTitle: Bool = false
 
+    var isExistsGame: Bool {
+        dependency.gameManager.isExistsGame
+    }
+
     public init(dependency: GameLandingDependency) {
         self.dependency = dependency
     }

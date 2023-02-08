@@ -37,7 +37,9 @@ let package = Package(
         ),
         .target(
             name: "Routing",
-            dependencies: []
+            dependencies: [
+                .target(name: "Model")
+            ]
         ),
         .testTarget(
             name: "GameCoreTests",

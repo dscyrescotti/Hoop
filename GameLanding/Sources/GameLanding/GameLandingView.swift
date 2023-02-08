@@ -56,12 +56,23 @@ public struct GameLandingView: View {
     private var buttons: some View {
         VStack(spacing: 15) {
             Button {
-                $coordinator.switchScreen(.gameBoard)
+                $coordinator.switchScreen(.gameBoard(mode: .new))
             } label: {
                 Label {
                     Text("New Game")
                 } icon: {
                     Image.loadImage(.gamecontrollerFill)
+                }
+            }
+            if viewModel.isExistsGame {
+                Button {
+                    $coordinator.switchScreen(.gameBoard(mode: .existing))
+                } label: {
+                    Label {
+                        Text("Continue")
+                    } icon: {
+                        Image.loadImage(.playCircleFill)
+                    }
                 }
             }
             Button {

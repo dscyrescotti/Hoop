@@ -8,8 +8,9 @@ extension Route: Factory {
     @ViewBuilder
     public func contentView() -> some View {
         switch self {
-        case .gameBoard:
-            GameBoardView(dependency: environment.gameBoardDependency)
+        case let .gameBoard(gameMode):
+            let dependency = environment.gameBoardDependency(gameMode)
+            GameBoardView(dependency: dependency)
         case .gameScore:
             GameScoreView(dependency: environment.gameScoreDependency)
         case .gameLanding:

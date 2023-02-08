@@ -48,7 +48,7 @@ class GameBoardScene: SKScene {
 // MARK: - SCENE
 extension GameBoardScene {
     override func didMove(to view: SKView) {
-        viewModel.loadGame(on: frame)
+        viewModel.loadGame(on: frame, mode: viewModel.dependency.gameMode)
         configureScene()
         configureBallNode()
         configureHoopNodes()
@@ -147,7 +147,9 @@ extension GameBoardScene {
     }
 
     func restartNewGame() {
-        viewModel.gameState = .idle
+        withAnimation {
+            viewModel.gameState = .idle
+        }
         ballNode?.removeFromParent()
         for (index, hoopNode) in hoopNodes.enumerated() {
             let wait = SKAction.wait(forDuration: 0.3 - 0.1 * Double(index))
@@ -162,7 +164,7 @@ extension GameBoardScene {
 
     func reloadNewGame() {
         hoopNodes.removeAll()
-        viewModel.loadGame(on: frame)
+        viewModel.loadGame(on: frame, mode: .new)
         configureBallNode()
         configureHoopNodes()
         startAnimationOnBallNode()

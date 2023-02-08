@@ -19,14 +19,41 @@ public class GameManager {
 
     public init(persistency: PersistencyService) {
         self.persistency = persistency
+        self.gameObject = loadExistingGameObject()
     }
 }
 
 // MARK: - GAME LOADING
 extension GameManager {
+    public var isExistsGame: Bool {
+        return gameObject != nil
+    }
+
     /// load the new game
-    public func loadNewGame(on frame: CGRect) {
-        if let existingGameObject = loadExistingGameObject() {
+    public func loadGame(on frame: CGRect, mode: GameMode) {
+        switch mode {
+        case .new:
+            loadNewGame(on: frame)
+        case .existing:
+            loadExistingGame(on: frame)
+        }
+    }
+
+    private func loadNewGame(on frame: CGRect) {
+        points = 0
+        winningSteak = 0
+        lives = 3
+        seedBall(on: frame)
+        hoops.removeAll()
+        for index in 1...3 {
+            seedHoop(on: frame, for: index)
+        }
+        deleteGameObject()
+        self.gameObject = loadNewGameObject()
+    }
+
+    private func loadExistingGame(on frame: CGRect) {
+        if let existingGameObject = gameObject {
             points = existingGameObject.points
             winningSteak = existingGameObject.winningSteak
             lives = existingGameObject.lives
@@ -37,16 +64,6 @@ extension GameManager {
                 .compactMap { $0 as? HoopObject }
                 .map { $0.model } ?? []
             self.gameObject = existingGameObject
-        } else {
-            points = 0
-            winningSteak = 0
-            lives = 3
-            seedBall(on: frame)
-            hoops.removeAll()
-            for index in 1...3 {
-                seedHoop(on: frame, for: index)
-            }
-            self.gameObject = loadNewGameObject()
         }
     }
 

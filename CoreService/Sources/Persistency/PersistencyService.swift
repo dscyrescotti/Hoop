@@ -92,7 +92,13 @@ public extension PersistencyService {
             let balls = try managedObjectContext.fetch(ballRequest)
             let hoops = try managedObjectContext.fetch(hoopRequest)
             let games = try managedObjectContext.fetch(gameRequest)
-            print(balls, hoops, games)
+            print("Balls - (\(balls.count))")
+            print(balls)
+            print("Hoops - (\(hoops.count))")
+            print(hoops)
+            print("Games - (\(games.count))")
+            print(games)
+            print("End")
         } catch {
             debugPrint(error.localizedDescription)
         }

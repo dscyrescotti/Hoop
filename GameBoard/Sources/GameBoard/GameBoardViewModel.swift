@@ -25,8 +25,8 @@ class GameBoardViewModel: ObservableObject {
         self.dependency = dependency
     }
 
-    func loadGame(on frame: CGRect) {
-        dependency.gameManager.loadNewGame(on: frame)
+    func loadGame(on frame: CGRect, mode: GameMode) {
+        dependency.gameManager.loadGame(on: frame, mode: mode)
         points = dependency.gameManager.points
         winningSteak = dependency.gameManager.winningSteak
         lives = dependency.gameManager.lives
@@ -96,5 +96,9 @@ class GameBoardViewModel: ObservableObject {
     func cancelTimer() {
         timer?.cancel()
         timer = nil
+    }
+
+    func cleanUpGameBoard() {
+        dependency.gameManager.deleteGameObject()
     }
 }

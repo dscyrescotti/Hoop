@@ -80,6 +80,7 @@ public struct GameBoardView: View {
                 }
             }
             Button {
+                viewModel.cleanUpGameBoard()
                 $coodinator.switchScreen(.gameLanding)
             } label: {
                 Label {

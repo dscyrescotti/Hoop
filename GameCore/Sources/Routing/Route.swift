@@ -1,8 +1,9 @@
+import Model
 import SwiftUI
 import Foundation
 
 public enum Route: Equatable, Identifiable, Hashable {
-    case gameBoard
+    case gameBoard(mode: GameMode)
     case gameScore
     case gameLanding
 

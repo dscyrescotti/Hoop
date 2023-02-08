@@ -1,4 +1,5 @@
 import Core
+import Model
 import GameBoard
 import GameScore
 import GameLanding
@@ -31,8 +32,11 @@ extension Environment {
 }
 
 extension Environment {
-    var gameBoardDependency: GameBoardDependency {
-        GameBoardDependency(gameManager: gameManager)
+    func gameBoardDependency(_ gameMode: GameMode) -> GameBoardDependency {
+        GameBoardDependency(
+            gameMode: gameMode,
+            gameManager: gameManager
+        )
     }
     
     var gameScoreDependency: GameScoreDependency {
