@@ -5,7 +5,7 @@ import Persistency
 extension GameManager {
     func loadPersistency() {
         gameObject = persistency.fetchObjects(with: GameObject.self).first
-        scores = persistency.fetchObjects(with: ScoreObject.self).map { $0.score }
+        scores = loadScoreObjects().map { $0.score }
     }
 
     func loadNewGameObject() -> GameObject {
@@ -87,16 +87,14 @@ extension GameManager {
     public func deleteGameObject() {
         if let gameObject {
             /// add score object
-            let scoreObject = persistency.createObject(for: ScoreObject.self)
-            scoreObject.copy(gameObject.points)
+            if gameObject.points > 0 {
+                let scoreObject = persistency.createObject(for: ScoreObject.self)
+                scoreObject.copy(gameObject.points)
+            }
 
             /// update list
-            let scoreRequest = NSFetchRequest<ScoreObject>(entityName: ScoreObject.entityName)
-            let pointSort = NSSortDescriptor(keyPath: \ScoreObject.points, ascending: false)
-            let dateSort = NSSortDescriptor(keyPath: \ScoreObject.date, ascending: true)
-            scoreRequest.sortDescriptors = [pointSort, dateSort]
-            var scoreObjects = persistency.fetchObjects(with: scoreRequest)
-            while scoreObjects.count > 10 {
+            var scoreObjects = loadScoreObjects()
+            while scoreObjects.count > 20 {
                 let object = scoreObjects.removeLast()
                 persistency.removeObject(object)
             }
@@ -109,5 +107,26 @@ extension GameManager {
             /// update scores
             self.scores = scoreObjects.map { $0.score }
         }
+    }
+
+    private func loadScoreObjects() -> [ScoreObject] {
+        let scoreRequest = NSFetchRequest<ScoreObject>(entityName: ScoreObject.entityName)
+        let pointSort = NSSortDescriptor(keyPath: \ScoreObject.points, ascending: false)
+        let dateSort = NSSortDescriptor(keyPath: \ScoreObject.date, ascending: true)
+        scoreRequest.sortDescriptors = [pointSort, dateSort]
+        return persistency.fetchObjects(with: scoreRequest)
+    }
+
+    public func updateScores() {
+        let scoreRequest = NSFetchRequest<ScoreObject>(entityName: ScoreObject.entityName)
+        let predictate = NSPredicate(format: "%K == YES", argumentArray: [#keyPath(ScoreObject.isNew)])
+        scoreRequest.predicate = predictate
+        let scoreObjects = persistency.fetchObjects(with: scoreRequest)
+        guard !scoreObjects.isEmpty else { return }
+        for scoreObject in scoreObjects {
+            scoreObject.isNew = false
+        }
+        self.scores = loadScoreObjects().map { $0.score }
+        persistency.saveContext()
     }
 }

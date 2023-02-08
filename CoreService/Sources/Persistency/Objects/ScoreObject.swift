@@ -6,4 +6,5 @@ public class ScoreObject: NSManagedObject, Entity {
 
     @NSManaged public var points: Int
     @NSManaged public var date: Date
+    @NSManaged public var isNew: Bool
 }

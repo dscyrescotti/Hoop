@@ -45,7 +45,8 @@ extension ScoreObject {
         Score(
             id: objectID.uriRepresentation().absoluteString,
             points: points,
-            date: date
+            date: date,
+            isNew: isNew
         )
     }
 }

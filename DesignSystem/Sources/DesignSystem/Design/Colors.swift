@@ -1,13 +1,15 @@
 import SwiftUI
 
 public enum Colors: String {
-    case ceruleanCrayola = "cerulean_crayola"
-    case deepChampagne = "deep_champagne"
-    case eerieBlack = "eerie_black"
-    case mahogany
-    case nonPhotoBlue = "non_photo_blue"
     case rust
+    case wheat
     case white
+    case mahogany
+    case eerieBlack = "eerie_black"
+    case nonPhotoBlue = "non_photo_blue"
+    case deepChampagne = "deep_champagne"
+    case fireEngineRed = "fire_engine_red"
+    case ceruleanCrayola = "cerulean_crayola"
 }
 
 public extension Color {

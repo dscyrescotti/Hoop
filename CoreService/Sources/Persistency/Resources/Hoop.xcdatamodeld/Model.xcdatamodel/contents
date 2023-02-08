@@ -23,6 +23,7 @@
     </entity>
     <entity name="ScoreObject" representedClassName="Persistency.ScoreObject" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isNew" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="points" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
 </model>

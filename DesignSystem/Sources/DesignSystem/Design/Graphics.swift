@@ -20,7 +20,12 @@ public enum Graphic: String {
     case basketball
 
     // MARK: - Hoop
-    case ballPassingHoop = "ball-passing-hoop"
     case hoop
     case hoopTexture = "hoop-texture"
+    case ballPassingHoop = "ball-passing-hoop"
+
+    // MARK: - Trophy
+    case goldTrophy = "gold-trophy"
+    case silverTrophy = "silver-trophy"
+    case bronzeTrophy = "bronze-trophy"
 }

@@ -8,6 +8,7 @@ public extension Image {
 
 public enum Icons: String {
     case house
+    case xmark
     case heartFill = "heart.fill"
     case playCircleFill = "play.circle.fill"
     case gamecontrollerFill = "gamecontroller.fill"
