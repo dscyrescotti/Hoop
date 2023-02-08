@@ -2,6 +2,7 @@ import SwiftUI
 
 public enum Colors: String {
     case rust
+    case flame
     case wheat
     case white
     case mahogany

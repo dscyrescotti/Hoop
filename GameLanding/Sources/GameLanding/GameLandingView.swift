@@ -1,3 +1,4 @@
+import Model
 import Routing
 import SwiftUI
 import DesignSystem
@@ -76,13 +77,22 @@ public struct GameLandingView: View {
                 }
             }
             Button {
+                viewModel.resetScoreCount()
                 $coordinator.fullScreen(.gameScore)
             } label: {
                 Label {
-                    Text("Top Scores")
+                    Text("High Scores")
                 } icon: {
                     Image.loadImage(.alignVerticalBottomFill)
                 }
+            }
+            .overlay(alignment: .topLeading) {
+                if viewModel.newScoreCount > 0 {
+                    NewBadge(.flame)
+                }
+            }
+            .onAppear {
+                viewModel.loadScoreCount()
             }
         }
         .buttonStyle(.primary)

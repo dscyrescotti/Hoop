@@ -17,6 +17,7 @@ public struct GameScoreView: View {
                 $coordinator.dismiss()
             }
             ScrollView(showsIndicators: false) {
+                
                 VStack(spacing: 20) {
                     ForEach(viewModel.scores, id: \.1) { index, score in
                         scoreRow(with: score, index: index + 1)
@@ -43,14 +44,8 @@ public struct GameScoreView: View {
         .background(Color.of(.wheat))
         .cornerRadius(15)
         .overlay(alignment: .topLeading) {
-            if score.date > Date().addingTimeInterval(-86400) && score.isNew {
-                Text("New")
-                    .font(.of(.caption))
-                    .foregroundColor(.of(.white))
-                    .padding(.vertical, 3)
-                    .padding(.horizontal, 5)
-                    .background(Capsule())
-                    .foregroundColor(.of(.fireEngineRed))
+            if score.isNew {
+                NewBadge()
             }
         }
         .padding(.horizontal, 24)

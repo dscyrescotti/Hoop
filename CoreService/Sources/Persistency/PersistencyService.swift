@@ -77,6 +77,16 @@ public extension PersistencyService {
         return []
     }
 
+    func fetchCount<T: NSManagedObject>(with fetchRequest: NSFetchRequest<T>) -> Int {
+        do {
+            let count = try managedObjectContext.count(for: fetchRequest)
+            return count
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+        return 0
+    }
+
     func createObject<T: NSManagedObject>(for type: T.Type) -> T {
         return T(context: managedObjectContext)
     }

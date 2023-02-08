@@ -129,4 +129,11 @@ extension GameManager {
         self.scores = loadScoreObjects().map { $0.score }
         persistency.saveContext()
     }
+
+    public func loadNewScoreObjectCount() -> Int {
+        let scoreRequest = NSFetchRequest<ScoreObject>(entityName: ScoreObject.entityName)
+        let predictate = NSPredicate(format: "%K == YES", argumentArray: [#keyPath(ScoreObject.isNew)])
+        scoreRequest.predicate = predictate
+        return persistency.fetchCount(with: scoreRequest)
+    }
 }
