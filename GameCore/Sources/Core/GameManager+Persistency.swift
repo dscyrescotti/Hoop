@@ -3,8 +3,9 @@ import Foundation
 import Persistency
 
 extension GameManager {
-    func loadExistingGameObject() -> GameObject? {
-        persistency.loadGameObject()
+    func loadPersistency() {
+        gameObject = persistency.fetchObjects(with: GameObject.self).first
+        scores = persistency.fetchObjects(with: ScoreObject.self).map { $0.score }
     }
 
     func loadNewGameObject() -> GameObject {
@@ -85,9 +86,28 @@ extension GameManager {
 
     public func deleteGameObject() {
         if let gameObject {
+            /// add score object
+            let scoreObject = persistency.createObject(for: ScoreObject.self)
+            scoreObject.copy(gameObject.points)
+
+            /// update list
+            let scoreRequest = NSFetchRequest<ScoreObject>(entityName: ScoreObject.entityName)
+            let pointSort = NSSortDescriptor(keyPath: \ScoreObject.points, ascending: false)
+            let dateSort = NSSortDescriptor(keyPath: \ScoreObject.date, ascending: true)
+            scoreRequest.sortDescriptors = [pointSort, dateSort]
+            var scoreObjects = persistency.fetchObjects(with: scoreRequest)
+            while scoreObjects.count > 10 {
+                let object = scoreObjects.removeLast()
+                persistency.removeObject(object)
+            }
+
+            /// remove game object
             self.gameObject = nil
             persistency.removeObject(gameObject)
             persistency.saveContext()
+
+            /// update scores
+            self.scores = scoreObjects.map { $0.score }
         }
     }
 }

@@ -1,8 +1,8 @@
 import CoreData
 
 @objc(HoopObject)
-public class HoopObject: NSManagedObject {
-    static public let entityName = String(describing: HoopObject.self)
+public class HoopObject: NSManagedObject, Entity {
+    static public var entityName = String(describing: HoopObject.self)
 
     @NSManaged public var xPoint: CGFloat
     @NSManaged public var yPoint: CGFloat

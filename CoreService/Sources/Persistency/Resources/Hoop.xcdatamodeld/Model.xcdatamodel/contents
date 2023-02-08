@@ -21,4 +21,8 @@
         <attribute name="yPoint" attributeType="Double" usesScalarValueType="YES"/>
         <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GameObject" inverseName="hoops" inverseEntity="GameObject"/>
     </entity>
+    <entity name="ScoreObject" representedClassName="Persistency.ScoreObject" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="points" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
 </model>

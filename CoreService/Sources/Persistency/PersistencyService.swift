@@ -28,7 +28,7 @@ public class PersistencyService {
         return container
     }()
 
-    public lazy var managedObjectContext: NSManagedObjectContext = {
+    private lazy var managedObjectContext: NSManagedObjectContext = {
         return persistentContainer.viewContext
     }()
 
@@ -56,15 +56,25 @@ public class PersistencyService {
 
 // MARK: - Methods
 public extension PersistencyService {
-    func loadGameObject() -> GameObject? {
-        let fetchRequest = NSFetchRequest<GameObject>(entityName: GameObject.entityName)
+    func fetchObjects<T: NSManagedObject>(with type: T.Type) -> [T] where T: Entity {
+        let fetchRequest = NSFetchRequest<T>(entityName: T.entityName)
         do {
-            let gameObject = try managedObjectContext.fetch(fetchRequest).first
-            return gameObject
+            let result = try managedObjectContext.fetch(fetchRequest)
+            return result
         } catch {
             debugPrint(error.localizedDescription)
         }
-        return nil
+        return []
+    }
+
+    func fetchObjects<T: NSManagedObject>(with fetchRequest: NSFetchRequest<T>) -> [T] {
+        do {
+            let result = try managedObjectContext.fetch(fetchRequest)
+            return result
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
+        return []
     }
 
     func createObject<T: NSManagedObject>(for type: T.Type) -> T {
@@ -82,26 +92,6 @@ public extension PersistencyService {
 
     func removeObject(_ object: NSManagedObject) {
         managedObjectContext.delete(object)
-    }
-
-    func printOut() {
-        let ballRequest = NSFetchRequest<BallObject>(entityName: BallObject.entityName)
-        let hoopRequest = NSFetchRequest<HoopObject>(entityName: HoopObject.entityName)
-        let gameRequest = NSFetchRequest<GameObject>(entityName: GameObject.entityName)
-        do {
-            let balls = try managedObjectContext.fetch(ballRequest)
-            let hoops = try managedObjectContext.fetch(hoopRequest)
-            let games = try managedObjectContext.fetch(gameRequest)
-            print("Balls - (\(balls.count))")
-            print(balls)
-            print("Hoops - (\(hoops.count))")
-            print(hoops)
-            print("Games - (\(games.count))")
-            print(games)
-            print("End")
-        } catch {
-            debugPrint(error.localizedDescription)
-        }
     }
 }
 

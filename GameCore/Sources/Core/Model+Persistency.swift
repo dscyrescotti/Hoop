@@ -33,3 +33,19 @@ extension HoopObject {
         )
     }
 }
+
+// MARK: - ScoreObject
+extension ScoreObject {
+    func copy(_ points: Int) {
+        self.points = points
+        self.date = Date()
+    }
+
+    var score: Score {
+        Score(
+            id: objectID.uriRepresentation().absoluteString,
+            points: points,
+            date: date
+        )
+    }
+}

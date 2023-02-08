@@ -14,12 +14,13 @@ public class GameManager {
     public var points: Int = .zero
     public var winningSteak: Int = .zero
     public var lives: Int = .zero
+    public var scores: [Score] = []
 
     public var baseLine: CGFloat = .zero
 
     public init(persistency: PersistencyService) {
         self.persistency = persistency
-        self.gameObject = loadExistingGameObject()
+        self.loadPersistency()
     }
 }
 
