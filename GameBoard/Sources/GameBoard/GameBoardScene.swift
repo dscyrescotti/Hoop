@@ -126,6 +126,7 @@ extension GameBoardScene {
         viewModel.cancelTimer()
         viewModel.calculateMissing()
         if viewModel.lives == 0 {
+            viewModel.cleanUpGameBoard()
             withAnimation {
                 viewModel.gameState = .gameOver
             }

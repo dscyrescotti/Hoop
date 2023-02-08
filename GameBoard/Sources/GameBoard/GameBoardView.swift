@@ -36,16 +36,14 @@ public struct GameBoardView: View {
         }
         .overlay(alignment: .top) {
             HStack(alignment: .top) {
-                HStack {
-                    ForEach(0..<viewModel.lives, id: \.self) { _ in
-                        Image.loadImage(.heartFill)
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                    }
-                }
-                .padding(.vertical, 5)
                 Spacer()
                 VStack(alignment: .trailing, spacing: 5) {
+                    HStack {
+                        ForEach(0..<3, id: \.self) { index in
+                            Image.loadImage(.heartFill)
+                                .foregroundColor(viewModel.lives + index > 2 ? .of(.fireEngineRed) : .of(.white))
+                        }
+                    }
                     HStack {
                         Text(viewModel.points, format: .number)
                         Image.loadImage(.basketball)
@@ -58,7 +56,7 @@ public struct GameBoardView: View {
                     Text("\(max(viewModel.winningSteak, 1))")
                 }
             }
-            .font(.of(.title))
+            .font(.of(.headline2))
             .multilineTextAlignment(.trailing)
             .foregroundColor(.of(.rust))
             .padding(.horizontal, 20)
