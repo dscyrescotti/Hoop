@@ -7,25 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EC4F7B9029953581006FC428 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = EC4F7B8F29953581006FC428 /* App */; };
 		EC536504297BC4B30069741F /* HoopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC536503297BC4B30069741F /* HoopApp.swift */; };
 		EC536508297BC4B40069741F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC536507297BC4B40069741F /* Assets.xcassets */; };
 		EC53650B297BC4B40069741F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC53650A297BC4B40069741F /* Preview Assets.xcassets */; };
-		EC7261EA298C2BA800AE62A6 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = EC7261E9298C2BA800AE62A6 /* App */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		EC38061A297EB0D100BA1F0B /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignSystem; sourceTree = "<group>"; };
+		EC4F7B87299534EE006FC428 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DesignSystem; path = Sources/DesignSystem; sourceTree = "<group>"; };
+		EC4F7B8829953500006FC428 /* CoreService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CoreService; path = Sources/CoreService; sourceTree = "<group>"; };
+		EC4F7B8929953518006FC428 /* GameCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GameCore; path = Sources/GameCore; sourceTree = "<group>"; };
+		EC4F7B8A2995352B006FC428 /* GameScore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GameScore; path = Sources/GameScore; sourceTree = "<group>"; };
+		EC4F7B8B29953537006FC428 /* GameLanding */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GameLanding; path = Sources/GameLanding; sourceTree = "<group>"; };
+		EC4F7B8C2995354C006FC428 /* GameBoard */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GameBoard; path = Sources/GameBoard; sourceTree = "<group>"; };
+		EC4F7B8D29953557006FC428 /* BallPicker */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BallPicker; path = Sources/BallPicker; sourceTree = "<group>"; };
+		EC4F7B8E29953568006FC428 /* App */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = App; path = Sources/App; sourceTree = "<group>"; };
+		EC4F7B9129954ED8006FC428 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EC536500297BC4B30069741F /* Hoop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hoop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC536503297BC4B30069741F /* HoopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoopApp.swift; sourceTree = "<group>"; };
 		EC536507297BC4B40069741F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC53650A297BC4B40069741F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		EC57224C29800D7300555864 /* GameCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameCore; sourceTree = "<group>"; };
-		EC643FAE29896A9A0052085C /* GameLanding */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameLanding; sourceTree = "<group>"; };
-		EC644BDF2993F75E002AA5A8 /* BallPicker */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = BallPicker; sourceTree = "<group>"; };
-		EC74AD08297E892F008B8DB7 /* GameBoard */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameBoard; sourceTree = "<group>"; };
-		ECC4F3D7298CC3AC00FD2E2E /* GameScore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = GameScore; sourceTree = "<group>"; };
-		ECCF6776299169D3004DC553 /* CoreService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CoreService; sourceTree = "<group>"; };
-		ECF45098298C1B8C00CA85A2 /* App */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = App; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,7 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC7261EA298C2BA800AE62A6 /* App in Frameworks */,
+				EC4F7B9029953581006FC428 /* App in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +62,7 @@
 		EC536502297BC4B30069741F /* Hoop */ = {
 			isa = PBXGroup;
 			children = (
+				EC4F7B9129954ED8006FC428 /* Info.plist */,
 				ECC12B15297E8BD4002EFC13 /* Resources */,
 				ECC12B14297E8BBD002EFC13 /* App */,
 				EC536509297BC4B40069741F /* Preview Content */,
@@ -79,14 +81,14 @@
 		EC74AD07297E892F008B8DB7 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				ECF45098298C1B8C00CA85A2 /* App */,
-				EC644BDF2993F75E002AA5A8 /* BallPicker */,
-				ECCF6776299169D3004DC553 /* CoreService */,
-				EC38061A297EB0D100BA1F0B /* DesignSystem */,
-				EC74AD08297E892F008B8DB7 /* GameBoard */,
-				EC57224C29800D7300555864 /* GameCore */,
-				EC643FAE29896A9A0052085C /* GameLanding */,
-				ECC4F3D7298CC3AC00FD2E2E /* GameScore */,
+				EC4F7B8E29953568006FC428 /* App */,
+				EC4F7B8D29953557006FC428 /* BallPicker */,
+				EC4F7B8829953500006FC428 /* CoreService */,
+				EC4F7B87299534EE006FC428 /* DesignSystem */,
+				EC4F7B8C2995354C006FC428 /* GameBoard */,
+				EC4F7B8929953518006FC428 /* GameCore */,
+				EC4F7B8B29953537006FC428 /* GameLanding */,
+				EC4F7B8A2995352B006FC428 /* GameScore */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -131,7 +133,7 @@
 			);
 			name = Hoop;
 			packageProductDependencies = (
-				EC7261E9298C2BA800AE62A6 /* App */,
+				EC4F7B8F29953581006FC428 /* App */,
 			);
 			productName = Hoop;
 			productReference = EC536500297BC4B30069741F /* Hoop.app */;
@@ -319,9 +321,9 @@
 				DEVELOPMENT_TEAM = 9TYSSFKV5U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Hoop/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -351,9 +353,9 @@
 				DEVELOPMENT_TEAM = 9TYSSFKV5U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Hoop/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -396,7 +398,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		EC7261E9298C2BA800AE62A6 /* App */ = {
+		EC4F7B8F29953581006FC428 /* App */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = App;
 		};
