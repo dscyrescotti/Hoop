@@ -7,6 +7,13 @@ public extension UIImage {
         }
         return image
     }
+
+    static func loadBall(_ name: String) -> UIImage {
+        guard let image = UIImage(named: name, in: .designSystem, with: .none) else {
+            fatalError("[Error]: The image is not found!")
+        }
+        return image
+    }
 }
 
 public extension Image {
@@ -20,8 +27,8 @@ public extension Image {
 }
 
 public enum Graphic: String {
-    // MARK: - Balls
-    case basketball
+    // MARK: - Heart
+    case heart
 
     // MARK: - Hoop
     case hoop
@@ -29,6 +36,7 @@ public enum Graphic: String {
     case ballPassingHoop = "ball-passing-hoop"
 
     // MARK: - Trophy
+    case trophy
     case goldTrophy = "gold-trophy"
     case silverTrophy = "silver-trophy"
     case bronzeTrophy = "bronze-trophy"

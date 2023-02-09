@@ -53,15 +53,23 @@ public struct GameBoardView: View {
                 VStack(alignment: .trailing, spacing: 5) {
                     HStack {
                         ForEach(0..<3, id: \.self) { index in
-                            Image.loadImage(.heartFill)
-                                .foregroundColor(viewModel.lives + index > 2 ? .of(.fireEngineRed) : .of(.white))
+                            if viewModel.lives + index > 2 {
+                                Image.loadImage(.heart)
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                            } else {
+                                Image.loadImage(.heart)
+                                    .resizable()
+                                    .contrast(0.0)
+                                    .frame(width: 30, height: 30)
+                            }
                         }
                     }
-                    HStack {
+                    HStack(alignment: .bottom) {
                         Text(viewModel.points, format: .number)
-                        Image.loadImage(.basketball)
+                        Image.loadImage(.trophy)
                             .resizable()
-                            .frame(width: 25, height: 25)
+                            .frame(width: 30, height: 30)
                     }
                     Text("x")
                         .font(.of(.headline))

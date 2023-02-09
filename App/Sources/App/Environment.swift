@@ -42,7 +42,8 @@ extension Environment {
     func gameBoardDependency(_ gameMode: GameMode) -> GameBoardDependency {
         GameBoardDependency(
             gameMode: gameMode,
-            gameManager: gameManager
+            gameManager: gameManager,
+            userDefaults: userDefaults
         )
     }
     

@@ -1,5 +1,6 @@
 import Model
 import SwiftUI
+import Defaults
 import SpriteKit
 import DesignSystem
 
@@ -176,7 +177,7 @@ extension GameBoardScene {
 extension GameBoardScene {
     func configureBallNode() {
         /// add a ball node with ball texture
-        let texture = SKTexture(image: .loadImage(.basketball))
+        let texture = SKTexture(image: .loadBall(viewModel.ballStyle.rawValue))
         let ballNode = SKSpriteNode(texture: texture)
         ballNode.name = GameBoardScene.ballNodeId
         ballNode.size = CGSize(width: 50, height: 50)

@@ -83,7 +83,7 @@ public struct GameLandingView: View {
                 $coordinator.fullScreen(.ballPicker)
             } label: {
                 Label {
-                    Text("Select Ball")
+                    Text("Change Ball")
                 } icon: {
                     Image.loadBall(viewModel.selectedBall.rawValue)
                         .resizable()

@@ -19,10 +19,13 @@ class GameBoardViewModel: ObservableObject {
     var ball: Ball { dependency.gameManager.ball }
     var hoops: Hoops { dependency.gameManager.hoops }
 
+    let ballStyle: BallStyle
+
     private var cancellables = Set<AnyCancellable>()
 
     public init(dependency: GameBoardDependency) {
         self.dependency = dependency
+        self.ballStyle = dependency.userDefaults.fetch(for: \.ball)
     }
 
     func loadGame(on frame: CGRect, mode: GameMode) {

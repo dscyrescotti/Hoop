@@ -22,6 +22,7 @@ public struct NavBar: View {
             }
             .font(.of(.button2))
             .frame(width: 25, height: 25)
+            .buttonStyle(.default)
         }
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 24)
