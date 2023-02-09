@@ -17,6 +17,7 @@ public struct GameLandingView: View {
                 headingImage
                 header(proxy: proxy)
                 Spacer()
+                Spacer()
                 buttons
                 Spacer()
             }
@@ -27,7 +28,9 @@ public struct GameLandingView: View {
         .onAppear {
             viewModel.startAnimation()
         }
-        .coordinated($coordinator)
+        .coordinated($coordinator) {
+            viewModel.updateSelectedBall()
+        }
     }
 
     private var headingImage: some View {
@@ -42,20 +45,20 @@ public struct GameLandingView: View {
             Text("Hoop")
                 .font(.of(.heading))
                 .foregroundColor(.of(.rust))
-                .scaleEffect(x: viewModel.isAnimateTitle ? 1 : 1.5, y: viewModel.isAnimateTitle ? 1 : 1.5)
-                .animation(.easeOut(duration: 1.6).repeatForever(), value: viewModel.isAnimateTitle)
-                .rotationEffect(.degrees(viewModel.isAnimateTitle ? 5 : -5))
-                .animation(.easeIn(duration: 0.8).repeatForever(), value: viewModel.isAnimateTitle)
+                .scaleEffect(x: viewModel.startsAnimation ? 1 : 1.5, y: viewModel.startsAnimation ? 1 : 1.5)
+                .animation(.easeOut(duration: 1.6).repeatForever(), value: viewModel.startsAnimation)
+                .rotationEffect(.degrees(viewModel.startsAnimation ? 5 : -5))
+                .animation(.easeIn(duration: 0.8).repeatForever(), value: viewModel.startsAnimation)
             Text("Shoot Your Shot 🏀💨")
                 .font(.of(.headline))
                 .foregroundColor(.of(.mahogany))
-                .offset(x: viewModel.isAnimateTitle ? -proxy.size.width * 0.8 : proxy.size.width * 0.8)
-                .animation(.linear(duration: 5).repeatForever(autoreverses: false), value: viewModel.isAnimateTitle)
+                .offset(x: viewModel.startsAnimation ? -proxy.size.width * 0.8 : proxy.size.width * 0.8)
+                .animation(.linear(duration: 5).repeatForever(autoreverses: false), value: viewModel.startsAnimation)
         }
     }
 
     private var buttons: some View {
-        VStack(spacing: 15) {
+        VStack(alignment: .trailing, spacing: 15) {
             Button {
                 $coordinator.switchScreen(.gameBoard(mode: .new))
             } label: {
@@ -74,6 +77,21 @@ public struct GameLandingView: View {
                     } icon: {
                         Image.loadImage(.playCircleFill)
                     }
+                }
+            }
+            Button {
+                $coordinator.fullScreen(.ballPicker)
+            } label: {
+                Label {
+                    Text("Select Ball")
+                } icon: {
+                    Image.loadBall(viewModel.selectedBall.rawValue)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .scaleEffect(x: viewModel.startsAnimation ? 1 : 0.8, y: viewModel.startsAnimation ? 1 : 0.8)
+                        .animation(.easeInOut.repeatForever(), value: viewModel.startsAnimation)
+                        .rotationEffect(viewModel.startsAnimation ? .degrees(0) : .degrees(360))
+                        .animation(.linear(duration: 5).repeatForever(autoreverses: false), value: viewModel.startsAnimation)
                 }
             }
             Button {

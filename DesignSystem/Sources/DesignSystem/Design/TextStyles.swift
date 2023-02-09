@@ -18,6 +18,7 @@ public enum FontStyle {
 
     // MARK: - Caption
     case caption
+    case caption2
 
     // MARK: - Heading
     case heading
@@ -41,6 +42,8 @@ public enum FontStyle {
 
         case .caption:
             return (12, .medium)
+        case .caption2:
+            return (10, .regular)
 
         // MARK: - Heading
         case .heading:

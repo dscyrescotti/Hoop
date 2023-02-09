@@ -8,12 +8,20 @@ let package = Package(
     platforms: [.iOS(.v16)],
     products: [
         .library(
+            name: "Defaults",
+            targets: ["Defaults"]
+        ),
+        .library(
             name: "Persistency",
             targets: ["Persistency"]
         )
     ],
     dependencies: [],
     targets: [
+        .target(
+            name: "Defaults",
+            dependencies: []
+        ),
         .target(
             name: "Persistency",
             dependencies: []

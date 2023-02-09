@@ -3,9 +3,10 @@ import SwiftUI
 import Foundation
 
 public enum Route: Equatable, Identifiable, Hashable {
-    case gameBoard(mode: GameMode)
     case gameScore
+    case ballPicker
     case gameLanding
+    case gameBoard(mode: GameMode)
 
     public var id: Int {
         hashValue

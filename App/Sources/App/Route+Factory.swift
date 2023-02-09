@@ -2,6 +2,7 @@ import Routing
 import SwiftUI
 import GameBoard
 import GameScore
+import BallPicker
 import GameLanding
 
 extension Route: Factory {
@@ -15,6 +16,8 @@ extension Route: Factory {
             GameScoreView(dependency: environment.gameScoreDependency)
         case .gameLanding:
             GameLandingView(dependency: environment.gameLandingDependency)
+        case .ballPicker:
+            BallPickerView(dependency: environment.ballPickerDependency)
         }
     }
 

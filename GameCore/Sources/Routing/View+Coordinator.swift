@@ -2,8 +2,8 @@ import SwiftUI
 
 public extension View {
     @ViewBuilder
-    func coordinated(_ coordinator: Coordinator) -> some View {
-        fullScreenCover(item: coordinator.$fullScreenRoute) { route in
+    func coordinated(_ coordinator: Coordinator, onDismiss: (() -> Void)? = nil) -> some View {
+        fullScreenCover(item: coordinator.$fullScreenRoute, onDismiss: onDismiss) { route in
             route.contentView
         }
     }

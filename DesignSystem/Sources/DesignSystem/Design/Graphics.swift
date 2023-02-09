@@ -13,6 +13,10 @@ public extension Image {
     static func loadImage(_ name: Graphic) -> Image {
         Image(name.rawValue, bundle: .designSystem)
     }
+
+    static func loadBall(_ name: String) -> Image {
+        Image(name, bundle: .designSystem)
+    }
 }
 
 public enum Graphic: String {

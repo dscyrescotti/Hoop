@@ -1,10 +1,13 @@
+import Model
 import Combine
+import Defaults
 
 class GameLandingViewModel: ObservableObject {
     let dependency: GameLandingDependency
 
-    @Published var isAnimateTitle: Bool = false
+    @Published var startsAnimation: Bool = false
     @Published var newScoreCount: Int = 0
+    @Published var selectedBall: BallStyle
 
     var isExistsGame: Bool {
         dependency.gameManager.isExistsGame
@@ -12,10 +15,11 @@ class GameLandingViewModel: ObservableObject {
 
     public init(dependency: GameLandingDependency) {
         self.dependency = dependency
+        self.selectedBall = dependency.userDefaults.fetch(for: \.ball)
     }
 
     func startAnimation() {
-        isAnimateTitle = true
+        startsAnimation = true
     }
 
     func loadScoreCount() {
@@ -24,5 +28,9 @@ class GameLandingViewModel: ObservableObject {
 
     func resetScoreCount() {
         newScoreCount = 0
+    }
+
+    func updateSelectedBall() {
+        self.selectedBall = dependency.userDefaults.fetch(for: \.ball)
     }
 }

@@ -15,6 +15,7 @@ public enum Icons: String {
     case trashFill = "trash.fill"
     case playCircleFill = "play.circle.fill"
     case gamecontrollerFill = "gamecontroller.fill"
+    case checkmarkCircleFill = "checkmark.circle.fill"
     case arrowCounterclockwise = "arrow.counterclockwise"
     case alignVerticalBottomFill = "align.vertical.bottom.fill"
 }

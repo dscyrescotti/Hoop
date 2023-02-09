@@ -14,6 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../GameCore"),
+        .package(path: "../CoreService"),
         .package(path: "../DesignSystem")
     ],
     targets: [
@@ -23,6 +24,7 @@ let package = Package(
                 .product(name: "Core", package: "GameCore"),
                 .product(name: "Model", package: "GameCore"),
                 .product(name: "Routing", package: "GameCore"),
+                .product(name: "Defaults", package: "CoreService"),
                 .product(name: "DesignSystem", package: "DesignSystem")
             ]
         ),

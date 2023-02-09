@@ -48,6 +48,7 @@ public struct GameBoardView: View {
                 .disabled(viewModel.gameState != .idle)
                 .foregroundColor(.of(.mahogany))
                 .font(.of(.headline3))
+                .buttonStyle(.default)
                 Spacer()
                 VStack(alignment: .trailing, spacing: 5) {
                     HStack {
