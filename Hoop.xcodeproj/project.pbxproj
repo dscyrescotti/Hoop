@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EC10D4592995E826006E3CFE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC10D4582995E826006E3CFE /* Preview Assets.xcassets */; };
 		EC4F7B9029953581006FC428 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = EC4F7B8F29953581006FC428 /* App */; };
 		EC536504297BC4B30069741F /* HoopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC536503297BC4B30069741F /* HoopApp.swift */; };
 		EC536508297BC4B40069741F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC536507297BC4B40069741F /* Assets.xcassets */; };
-		EC53650B297BC4B40069741F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC53650A297BC4B40069741F /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EC10D4582995E826006E3CFE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		EC4F7B87299534EE006FC428 /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DesignSystem; path = Sources/DesignSystem; sourceTree = "<group>"; };
 		EC4F7B8829953500006FC428 /* CoreService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CoreService; path = Sources/CoreService; sourceTree = "<group>"; };
 		EC4F7B8929953518006FC428 /* GameCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GameCore; path = Sources/GameCore; sourceTree = "<group>"; };
@@ -26,7 +27,6 @@
 		EC536500297BC4B30069741F /* Hoop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hoop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC536503297BC4B30069741F /* HoopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoopApp.swift; sourceTree = "<group>"; };
 		EC536507297BC4B40069741F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		EC53650A297BC4B40069741F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +41,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EC10D4572995E81C006E3CFE /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				EC10D4582995E826006E3CFE /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		EC5364F7297BC4B30069741F = {
 			isa = PBXGroup;
 			children = (
@@ -62,20 +70,12 @@
 		EC536502297BC4B30069741F /* Hoop */ = {
 			isa = PBXGroup;
 			children = (
-				EC4F7B9129954ED8006FC428 /* Info.plist */,
-				ECC12B15297E8BD4002EFC13 /* Resources */,
 				ECC12B14297E8BBD002EFC13 /* App */,
-				EC536509297BC4B40069741F /* Preview Content */,
+				EC4F7B9129954ED8006FC428 /* Info.plist */,
+				EC10D4572995E81C006E3CFE /* Preview Content */,
+				ECC12B15297E8BD4002EFC13 /* Resources */,
 			);
 			path = Hoop;
-			sourceTree = "<group>";
-		};
-		EC536509297BC4B40069741F /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				EC53650A297BC4B40069741F /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		EC74AD07297E892F008B8DB7 /* Packages */ = {
@@ -177,7 +177,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC53650B297BC4B40069741F /* Preview Assets.xcassets in Resources */,
+				EC10D4592995E826006E3CFE /* Preview Assets.xcassets in Resources */,
 				EC536508297BC4B40069741F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
